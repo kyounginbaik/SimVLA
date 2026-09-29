@@ -1,5 +1,5 @@
 # SimVLA
 
-Simulation-derived data for vision-language-action learning: procedural kitchens, task goals, system identification, SimAction, and SimVQA.
+End-to-end framework for zero-shot sim-to-real VLA training for mobile manipulation.
 
 ![SimVLA overview](docs/Figure1.png)
