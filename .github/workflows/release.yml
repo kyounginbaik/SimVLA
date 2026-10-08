@@ -1,0 +1,88 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify tag matches package version
+        id: version
+        run: |
+          version=$(python -c 'import tomllib; print(tomllib.load(open("pyproject.toml", "rb"))["project"]["version"])')
+          test "$GITHUB_REF_NAME" = "v$version" || {
+            echo "tag $GITHUB_REF_NAME does not match package version $version" >&2
+            exit 1
+          }
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - run: python -m pip install '.[scenes,dev]'
+      - run: python -m pip check
+      - run: python -m pytest tests
+      - run: python -m pytest scripts/simvla/test_skill_contract.py
+      - run: python -m pytest scripts/simvla/test_aiworker_kitchen_cfg.py
+      - run: python -m pytest scripts/simvla/test_aiworker_home.py
+      - run: python -m pytest scripts/simvla/test_retry_diagnostics.py
+      - run: python -m pytest scripts/simvla/test_hdf5_compat.py
+      - run: python -m pytest scripts/simvla/test_rby1_kitchen_cfg.py
+      - run: rm -rf dist && python -m build
+      - name: Check Python distributions
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          python -m twine check \
+            "dist/simvla-${VERSION}-py3-none-any.whl" \
+            "dist/simvla-${VERSION}.tar.gz"
+          python scripts/tools/check_distribution.py \
+            --wheel "dist/simvla-${VERSION}-py3-none-any.whl" \
+            --sdist "dist/simvla-${VERSION}.tar.gz"
+      - name: Build full-source archive and checksums
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          git archive --format=tar.gz --prefix="simvla-${VERSION}/" \
+            --output="dist/simvla-${VERSION}-repository.tar.gz" HEAD
+          sha256sum \
+            "dist/simvla-${VERSION}-py3-none-any.whl" \
+            "dist/simvla-${VERSION}.tar.gz" \
+            "dist/simvla-${VERSION}-repository.tar.gz" > dist/SHA256SUMS
+          sha256sum -c dist/SHA256SUMS
+      - name: Record release provenance
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          python scripts/tools/release_evidence.py --require-clean \
+            --output dist/release-evidence.json \
+            --artifact "dist/simvla-${VERSION}-py3-none-any.whl" \
+            --artifact "dist/simvla-${VERSION}.tar.gz" \
+            --artifact "dist/simvla-${VERSION}-repository.tar.gz" \
+            --artifact dist/SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ github.ref_name }}
+          path: dist/*
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            "dist/simvla-${VERSION}-py3-none-any.whl" \
+            "dist/simvla-${VERSION}.tar.gz" \
+            "dist/simvla-${VERSION}-repository.tar.gz" \
+            dist/SHA256SUMS \
+            dist/release-evidence.json \
+            --verify-tag \
+            --notes-file ".github/release-notes/v${VERSION}.md" \
+            --title "SimVLA ${VERSION}"

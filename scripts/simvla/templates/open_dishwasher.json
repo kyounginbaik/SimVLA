@@ -1,0 +1,136 @@
+{
+    "name": "open_dishwasher",
+    "language": "Open the dishwasher.",
+    "roles": [
+        {
+            "name": "dishwasher",
+            "object_type": null,
+            "articulation_with": [
+                "door",
+                "dishwasher"
+            ],
+            "handle_of": null
+        },
+        {
+            "name": "dishwasher_handle",
+            "object_type": null,
+            "articulation_with": null,
+            "handle_of": "dishwasher"
+        }
+    ],
+    "steps": [
+        {
+            "skill": "nav.to_prim",
+            "action": "N_s",
+            "params": {
+                "prim_path": "/world/dishwasher",
+                "which_arm": "Left"
+            },
+            "language": "Move to the dishwasher"
+        },
+        {
+            "skill": "arm.bar_handle_pregrasp",
+            "action": "A_l",
+            "params": {
+                "prim_path": "@dishwasher_handle"
+            },
+            "language": "Reach toward the dishwasher handle"
+        },
+        {
+            "skill": "arm.bar_handle_grasp",
+            "action": "A_l",
+            "params": {
+                "prim_path": "@dishwasher_handle"
+            },
+            "language": "Grip the dishwasher handle"
+        },
+        {
+            "skill": "gripper.set",
+            "action": "G_l",
+            "params": {
+                "grasp": true
+            },
+            "language": "Close the gripper on the handle"
+        },
+        {
+            "skill": "nav.open_articulation",
+            "action": "N",
+            "params": {
+                "back_off_m": 0.16,
+                "which_arm": "Left"
+            },
+            "language": "Give the door room"
+        },
+        {
+            "skill": "arm.door_arc_pull",
+            "action": "A_l",
+            "params": {
+                "prim_path": "@dishwasher_handle",
+                "to_deg": 16.0,
+                "rotate": false
+            },
+            "language": "Carry the door down to 16 degrees"
+        },
+        {
+            "skill": "gripper.set",
+            "action": "G_l",
+            "params": {
+                "grasp": false
+            },
+            "language": "Let go of the handle"
+        },
+        {
+            "skill": "nav.open_articulation",
+            "action": "N",
+            "params": {
+                "back_off_m": 0.6,
+                "which_arm": "Left"
+            },
+            "language": "Back clear of the open door"
+        },
+        {
+            "skill": "arm.reset",
+            "action": "A_l",
+            "params": {},
+            "language": "Return the arm home"
+        }
+    ],
+    "subtask_groups": [
+        [
+            0,
+            1,
+            2,
+            3
+        ],
+        [
+            4,
+            5
+        ],
+        [
+            6,
+            7,
+            8
+        ]
+    ],
+    "scene": [],
+    "success": {
+        "all": [
+            {
+                "joint_pos": {
+                    "role": "@dishwasher",
+                    "joint": "corpus_to_door_0_1",
+                    "lo": 0.23561944901923448
+                }
+            },
+            {
+                "eef_home": {
+                    "radius": 0.12,
+                    "arm": "both"
+                }
+            },
+            {
+                "last_subtask": {}
+            }
+        ]
+    }
+}

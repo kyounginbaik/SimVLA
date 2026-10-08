@@ -1,0 +1,155 @@
+name: Package
+on: [push, pull_request]
+permissions:
+  contents: read
+concurrency:
+  group: package-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  browser-wizard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: python -m pip install '.[scenes,dev]' 'playwright==1.63.0'
+      - run: python -m playwright install --with-deps chromium
+      - name: Exercise browser setup and step transitions for all robot IDs
+        env:
+          SIMVLA_BROWSER_SMOKE: '1'
+          PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/scripts/simvla'
+        run: python -m pytest scripts/simvla/test_browser_wizard.py -q
+  usd-stage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: python -m pip install 'pytest>=8,<10' 'usd-core==26.8'
+      - run: python -m pytest tests/test_material_color_inputs.py tests/test_sink_collision.py -q
+  offline-export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: pip
+          cache-dependency-path: env/exporter-pip.lock.txt
+      - run: python -m pip install -r env/exporter-pip.lock.txt
+      - run: python -m pip install --no-deps -e .
+      - run: python -m pip check
+      - name: Export and decode synthetic episodes for all three robot schemas
+        env:
+          PYTHONPATH: '${{ github.workspace }}/src:${{ github.workspace }}/scripts/simvla:${{ github.workspace }}/source/isaaclab'
+        run: >-
+          python -m pytest scripts/simvla/test_offline_export_integration.py
+          scripts/simvla/test_episode_writer_object_pose.py
+          scripts/simvla/test_replay_initial_state.py
+          scripts/simvla/test_goal_bank_retry.py
+          scripts/simvla/test_collector_profile.py
+          scripts/simvla/test_simvqa.py
+          scripts/simvla/test_executor_dispatch.py -q
+          tests/test_joint_target_override.py tests/test_loaded_home_tracking.py
+          tests/test_replay_substeps.py tests/test_substep_recording.py
+          tests/test_carried_collision.py
+          tests/test_sink_collision.py
+          tests/test_recording_state.py
+          tests/test_replay_initial_step.py
+          tests/test_goal_noise_profile.py
+          --junitxml=offline-export-results.xml
+      - name: Annotate offline test failures
+        if: failure()
+        run: python scripts/tools/annotate_junit.py offline-export-results.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: offline-export-results
+          path: offline-export-results.xml
+  dataset-integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: python -m pip install '.[data,dev]'
+      - run: python -m pip check
+      - run: python -m pytest tests/test_lerobot_integrity.py -q
+  curobo-patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: git submodule update --init --depth 1 third_party/curobo
+      - run: git -C third_party/curobo apply --check ../curobo.simvla.patch
+  cpu:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.10', '3.11', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install '.[scenes,dev]'
+      - name: Read package version
+        id: version
+        run: |
+          version=$(python -c 'from importlib.metadata import version; print(version("simvla"))')
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - run: python -m pip check
+      - run: python -m pytest tests
+      - run: python -m pytest scripts/simvla/test_skill_contract.py
+      - run: python -m pytest scripts/simvla/test_task_emit.py
+      - run: python -m pytest scripts/simvla/test_select_goal_grasp.py
+      - run: python -m pytest scripts/simvla/test_aiworker_kitchen_cfg.py
+      - run: python -m pytest scripts/simvla/test_aiworker_home.py
+      - run: python -m pytest scripts/simvla/test_retry_diagnostics.py
+      - run: python -m pytest scripts/simvla/test_hdf5_compat.py
+      - run: python -m pytest scripts/simvla/test_rby1_kitchen_cfg.py
+      - run: python -m build
+      - name: Check Python distributions
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          python -m twine check \
+            "dist/simvla-${VERSION}-py3-none-any.whl" \
+            "dist/simvla-${VERSION}.tar.gz"
+          python scripts/tools/check_distribution.py \
+            --wheel "dist/simvla-${VERSION}-py3-none-any.whl" \
+            --sdist "dist/simvla-${VERSION}.tar.gz"
+      - name: Record build provenance
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          python scripts/tools/release_evidence.py \
+            --output "dist/release-evidence-py${{ matrix.python }}.json" \
+            --artifact "dist/simvla-${VERSION}-py3-none-any.whl" \
+            --artifact "dist/simvla-${VERSION}.tar.gz"
+      - run: python -m pip install --force-reinstall --no-deps dist/*.whl
+      - run: python -m pytest tests
+      - name: Test the standalone Python source archive outside the checkout
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          archive_test_dir=$(mktemp -d)
+          tar -xzf "dist/simvla-${VERSION}.tar.gz" -C "$archive_test_dir"
+          cd "$archive_test_dir/simvla-${VERSION}"
+          python -m pytest tests -q
+      - run: |
+          simvla vqa examples/vqa --output /tmp/questions.jsonl
+          python -c "from pathlib import Path; assert len(Path('/tmp/questions.jsonl').read_text().splitlines()) == 12"
+          simvla validate-goal examples/goals/Isaac-Kitchen-v813-00.json
+          cd /tmp
+          simvla validate bowl_to_drawer
+          simvla skills nav.to_prim
+          simvla scene --layout single_wall --seed 0 --output kitchen.glb
+      - uses: actions/upload-artifact@v4
+        with:
+          name: distributions-${{ matrix.python }}
+          path: dist/*

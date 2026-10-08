@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-06",
+  "robot": "anubis",
+  "task": "Isaac-Kitchen-v813-00",
+  "seed": 0,
+  "collection_job": 2423508,
+  "export": {
+    "passed": true,
+    "requested_episodes": 3,
+    "validated_episodes": 3,
+    "frames": 3947,
+    "cameras": 3,
+    "fps": 20,
+    "result_sha256": "285a4ebca89cdcd96e5893963bd2cb1f19977c6588115165adc189c68e3d3702"
+  },
+  "replay_mode": "Recorded joint motor targets plus bounded base-pose velocity feedback; no joint-state teleportation during execution",
+  "replay_runtime": "Fresh empty-venv public installation, compiled pinned cuRobo, RTX 3090",
+  "episodes": [
+    {"episode_index": 0, "job": 2426756, "successful_pass": 1, "success_timestep": 1312,
+     "qa_sha256": "e6b1e130ce7eef24515f7a86b9ccb46eea1f6a16d0eb580fbb54244d7886566f"},
+    {"episode_index": 1, "job": 2426927, "successful_pass": 1, "success_timestep": 1334,
+     "qa_sha256": "bcf3ed7052126b1c753233de75669c8ccaecbd15d5ea23ea4f66ab5675498c11"},
+    {"episode_index": 2, "job": 2426928, "successful_pass": 1, "success_timestep": 1300,
+     "qa_sha256": "8a3336aa64c52bda664d02133357f619011cc013ad4a3506ff28370017fd60bd"}
+  ],
+  "simvqa_per_episode": {
+    "passed": true, "records": 26, "images": 156, "qa_examples": 273,
+    "result_sha256": "ecd7b0723b085647d373a6bac4dafe027870ae646055caa2a7d871c1c221a49f"
+  },
+  "local_review_directory": "outputs/anubis-bulk-2423508",
+  "limitations": [
+    "Three accepted episodes of one recipe, not three independent seeds or a collection success-rate estimate.",
+    "Collection used the earlier recreated runtime; replay used the fresh public runtime.",
+    "Source archives/dirty snapshots are identified by per-run provenance; no clean release commit or unaffiliated replication is claimed."
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "_comment": "Robot-specific config for the Anubis bimanual mobile manipulator. Loaded by scripts/simvla/systemid.py (and real2sim.py) via --robot anubis.",
+  "arms": 2,
+  "mobile": true,
+  "threshold_gripper": -0.8,
+  "init_joint_pos": {
+    "_comment": "Per-joint initial position (radians) applied before reset.",
+    "arm1_base_link_joint": -6.200655059538352e-17,
+    "link11_joint": -0.5,
+    "link12_joint": 2.3560965061187744,
+    "link13_joint": -0.07669904083013535,
+    "link14_joint": 0.5246214270591736,
+    "link15_joint": -0.1733398288488388,
+    "arm2_base_link_joint": 0.000010652644050423987,
+    "link21_joint": -0.5,
+    "link22_joint": 2.356224298477173,
+    "link23_joint": -0.07669904083013535,
+    "link24_joint": -0.5246214270591736,
+    "link25_joint": 0.17487381398677826
+  },
+  "vqa": {
+    "_comment": "Link/joint names the SimVQA capture (simvla_replay.py --simvqa) reads; per robot. gripper_closed_travel: finger-joint travel (m) from its reset reading that counts as closed.",
+    "base_body": "base_link",
+    "ee_links": {"left": "ee_link2", "right": "ee_link1"},
+    "gripper_joints": {"left": "gripper2R_joint", "right": "gripper1R_joint"},
+    "gripper_closed_travel": 0.002
+  },
+  "real_to_sim_frame_offset_xyz": [-0.095, 0.0, 0.823356],
+  "eef_to_grasp_offset_local_xyz": [0.0, 0.0, 0.10956],
+  "layouts": {
+    "eef": {
+      "input": {
+        "l_eef_xyz": [0, 1, 2],
+        "l_rot6d": [3, 4, 5, 6, 7, 8],
+        "l_gripper": [9],
+        "r_eef_xyz": [10, 11, 12],
+        "r_rot6d": [13, 14, 15, 16, 17, 18],
+        "r_gripper": [19],
+        "base_delta": [20, 21, 22]
+      },
+      "output": ["dLxyz", "dLrot", "dRxyz", "dRrot", "Lgrip", "Rgrip", "base"]
+    }
+  },
+  "qpos_init": {
+    "source": "qpos",
+    "joints": {
+      "arm2_base_link_joint": 0,
+      "link21_joint": 1,
+      "link22_joint": 2,
+      "link23_joint": 3,
+      "link24_joint": 4,
+      "link25_joint": 5,
+      "arm1_base_link_joint": 7,
+      "link11_joint": 8,
+      "link12_joint": 9,
+      "link13_joint": 10,
+      "link14_joint": 11,
+      "link15_joint": 12
+    },
+    "grippers": {
+      "gripper2_joint":  {"col": 6,  "offset": 0.1, "scale": 1.7, "range": 0.04},
+      "gripper2R_joint": {"col": 6,  "offset": 0.1, "scale": 1.7, "range": 0.04},
+      "gripper1_joint":  {"col": 13, "offset": 0.1, "scale": 1.7, "range": 0.04},
+      "gripper1R_joint": {"col": 13, "offset": 0.1, "scale": 1.7, "range": 0.04}
+    }
+  }
+}

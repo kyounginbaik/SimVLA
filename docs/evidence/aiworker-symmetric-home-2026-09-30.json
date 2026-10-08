@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "evidence_type": "integration_run",
+  "title": "AI Worker symmetric home and mug-to-sink collection",
+  "recorded_at": "2026-09-30",
+  "scope": "Local cluster evidence for the mirrored AI Worker home; this is not a clean public reproduction or a policy benchmark.",
+  "runtime": {
+    "os": "Linux",
+    "python": "3.10.19",
+    "isaac_sim": "4.5.0",
+    "torch": "2.5.1+cu124",
+    "lerobot": "0.4.2",
+    "numpy": null,
+    "gpu": "NVIDIA GeForce RTX 3090",
+    "runtime_note": "The job-specific NumPy version was not captured; the inherited environment was used."
+  },
+  "source_revisions": {
+    "open_source_repository": "ab092676dd48ea5c05af7b5dc8a40879359892dd",
+    "research_repository": "db77160323852abf59527f17efdf02b767181a5f",
+    "historical_collector_worktree": "f703d62faf3bddac1e04f2ce78b44c1d9f2c237c"
+  },
+  "inputs": [
+    {"role": "open-source AI Worker configuration", "sha256": "16d697468d029af80030b69e8a4ca97d1631a7e90f0a0c8c0a3661e27871d6d2"},
+    {"role": "open-source symmetric-home helper", "sha256": "d32d33a9f86e71fd40ccc8bb87c5d1ac272f243b08187ac86d222757bcb766cf"},
+    {"role": "research-tree AI Worker configuration", "sha256": "d2a27579869336464defddc95e3ccc65b316dae9394d794514101b43b5e25f9f"},
+    {"role": "external task configuration", "sha256": "e6b668c2c12f1d5a7e2a94072815e9c8d81aedec5c28150b2548509d8386d14a"},
+    {"role": "external goal", "sha256": "f1f45ba9417cc17d1baade19843374d489508786b56f0f6c6e72aebe8d2d2831"},
+    {"role": "historical collector entry point", "sha256": "0ebbe03a8aa77293fa7ee1fe45d60ac176acb044854ef204dfdf26ae2f2d3649"},
+    {"role": "historical navigation planner", "sha256": "84cb1ef5360e19e05d731b8fc2743a2cfdc8b8ad3e498c3da7c57b2b2d5cbf6d"},
+    {"role": "historical arm planner", "sha256": "fc3e03dad4b33bc9a061ef2421d196d0552f5a1a85d280df2b1770d389acf628"}
+  ],
+  "home": {
+    "lift_m": -0.3,
+    "mirror_signs_q1_to_q7": [1, -1, -1, 1, -1, 1, -1],
+    "right_arm_rad": [0.7146, -0.7733, -0.8354, -2.5155, -1.3543, 0.5713, 0.6449],
+    "left_arm_rad": [0.7146, 0.7733, 0.8354, -2.5155, 1.3543, 0.5713, -0.6449]
+  },
+  "jobs": [
+    {
+      "scheduler_job_id": 2357114,
+      "purpose": "120-frame symmetric-home physics and camera probe",
+      "frames": 120,
+      "cameras": ["front", "cctv", "wrist_left", "wrist_right"],
+      "right_end_effector_base_m": [0.2946, -0.2583, 1.07016],
+      "left_end_effector_base_m": [0.27264, 0.24435, 1.04245],
+      "max_mirror_error_m": 0.02771,
+      "max_arm_joint_error_rad": 0.339575,
+      "max_robot_contact_force_n": null,
+      "contact_force_note": "The probe did not expose a usable contact-force field."
+    },
+    {
+      "scheduler_job_id": 2357115,
+      "purpose": "one complete mug-to-sink collection",
+      "status": "completed",
+      "exit_code": "0:0",
+      "started_at": "2026-09-30T13:54:23+09:00",
+      "ended_at": "2026-09-30T14:12:32+09:00",
+      "runtime": "00:18:09",
+      "task": "Isaac-Kitchen-v1967amuglh-00",
+      "robot": "aiworker",
+      "parallel_environments": 16,
+      "successful_episodes": 1,
+      "success_frame": 1376,
+      "dataset_rows": 1375,
+      "state_dimensions": 23,
+      "varying_state_dimensions": 23,
+      "action_dimensions": 23,
+      "varying_action_dimensions": 13,
+      "all_state_and_action_values_finite": true,
+      "video_streams": ["front", "wrist_left", "wrist_right"],
+      "video_frames_per_stream": 1375,
+      "video_resolution": [320, 240],
+      "video_fps": 20,
+      "video_duration_seconds": 68.75
+    }
+  ],
+  "collection_command": [
+    "python", "<historical-collector>/simvla_gen.py",
+    "--task", "Isaac-Kitchen-v1967amuglh-00",
+    "--robot", "aiworker",
+    "--num_envs", "16",
+    "--num_demos", "1",
+    "--sub_good_goal_count_r", "0",
+    "--sub_good_goal_count_l", "0",
+    "--good_goal_count", "1",
+    "--action_chunk_size", "50",
+    "--run_id", "raw",
+    "--output_root", "<output-root>/raw",
+    "--enable_cameras",
+    "--headless"
+  ],
+  "collection_environment": {
+    "SIMVLA_AIWORKER_LIFT_M": "-0.30",
+    "SIMVLA_INIT_POS_IDX": "0",
+    "SIMVLA_EP_TIMEOUT": "2400",
+    "SIMVLA_EPISODE_STEPS": "2400",
+    "SIMVLA_MAXFRAMES": "8000",
+    "SIMVLA_POSTGRASP_LIFT": "0.20",
+    "SIMVLA_POSTGRASP_LIFT_LEFT": "1",
+    "SIMVLA_NAV_FINAL_YAW_TIGHT": "0.05",
+    "SIMVLA_FAIL_TERMS": "1",
+    "SIMVLA_CUROBO_WORLD": "live",
+    "SIMVLA_RECORD_CAM": "front"
+  },
+  "output_sha256": {
+    "dataset_parquet": "33cdbae1fea9467dbdd3ed33bc35f58e214fdfb673ba5e2cdc97a9d9617206dc",
+    "dataset_info": "8804c166a77627b03a2e79a02990148e37a007e4322ebc5b0cada2b77b8a5f45",
+    "front_video": "c4ba698f6db21019d2b0b23544b8ae8563eea7ffa57d1aac7633fc4560c3f837",
+    "left_wrist_video": "b3487f5b28626291d0cffa84b5f6b91eb8690183f20a5a442d6f275794a1e9f0",
+    "right_wrist_video": "25a7b9ca66487d78b8366e2f753b0abd1378669c45674770ebacaecd3ab4e54e",
+    "review_video": "52db8919f9282452399bd118059c26cc47d9f00f96b04eace69836060476ded8",
+    "review_contact_sheet": "1580668766f983bcd7629aef0f37e276091025e1ee907c5eab40cb6846533c59"
+  },
+  "limitations": [
+    "The collector came from a historical worktree and used external unpublished robot, kitchen, and goal assets.",
+    "The run used an inherited simulator environment; it does not verify a fresh public installation.",
+    "The dataset and review media are identified by hash but are not bundled in this repository.",
+    "The probe did not provide a usable robot contact-force measurement.",
+    "This integration run does not establish policy quality or paper-result reproducibility."
+  ]
+}

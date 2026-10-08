@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-06",
+  "robot": "anubis",
+  "task": "Isaac-Kitchen-v813-00",
+  "seed": 0,
+  "collection_job": 2411130,
+  "replay_job": 2412901,
+  "recipe": "configs/collection/anubis-kitchen813.env",
+  "goal_recipe": "make_anubis_drawer_diagnostic.py --lateral-shift-m .17 --backoff-m .05 --swap-drawer-jaws --with-metadata",
+  "collection": {
+    "accepted_episode": true,
+    "frames": 1352,
+    "cameras": 3,
+    "fps": 20,
+    "initial_scene_snapshot_present": true,
+    "terminal_scene_snapshot_present": true,
+    "export_validation_passed": true,
+    "collection_result_sha256": "b088d321869c45f11d0e47cb1e2624076f4661e1ccc6e7114e58169b24a9941e",
+    "parquet_sha256": "8e86a637ceccbca0fe8c3991c3d3b4d749a81d06ba066b5078e36265e5dad29f"
+  },
+  "physical_replay": {
+    "successful_pass": 1,
+    "success_timestep": 1352,
+    "exit_code": 0,
+    "arm_gripper_mode": "recorded action.joint motor targets through physical actuators",
+    "base_mode": "recorded local velocity plus bounded feedback against recorded base poses",
+    "base_feedback_limits": {"translation_m_s": 0.05, "yaw_rad_s": 0.1},
+    "joint_state_teleportation_during_execution": false,
+    "terminal_bowl_xyz_m": [0.9400283694267273, -0.3849935531616211, 0.6773034334182739],
+    "terminal_drawer_joint_m": 0.027741003781557083,
+    "status_sha256": "124fd50cb6d223cdd18fedc166d00af7254199b6e6dedf9be82f71db87af6d01"
+  },
+  "simvqa": {
+    "capture_validation_passed": true,
+    "records": 26,
+    "checked_images": 156,
+    "generated_qa_examples": 275,
+    "result_sha256": "ecd7b0723b085647d373a6bac4dafe027870ae646055caa2a7d871c1c221a49f",
+    "qa_sha256": "e75ef72194bb1711fc3ce86f20b3eb1e79f177efc49c3e5642bbd447f9cee4f4"
+  },
+  "failed_replays_preserved": [2412491, 2412902],
+  "additional_collection": {"job": 2411668, "frames": 1180, "export_validation_passed": true, "replay_job": 2412902, "replay_passed": false},
+  "limitations": [
+    "One kitchen and seed, selected successful reference; not universal reliability or a success-rate benchmark.",
+    "Current profile uses state-referenced joint trajectories, not Cartesian/binary action-only replay.",
+    "Earlier independent Cartesian reference passes remain documented separately.",
+    "The task success predicate is not a general geometric containment proof.",
+    "Local relocated-source reproduction with public hash-locked assets, not unaffiliated external replication or bit-identical physics.",
+    "Planning collision models are partial; no whole-body collision guarantee.",
+    "SimVQA capture integrity is not a human-audited semantic benchmark."
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-06",
+  "robot": "rby1",
+  "task": "Isaac-Kitchen-v813r-00",
+  "seed": 0,
+  "profile": "configs/collection/rby1-kitchen813-basin.env",
+  "source_goal_sha256": "677ebf1a19c2f39dc80508e7812ba1a7261600198e26eb47cafa314266f3e992",
+  "source_goal_regenerated_byte_identically": true,
+  "collection": {
+    "job": 2437107,
+    "passed": true,
+    "episodes": 1,
+    "frames": 1210,
+    "cameras": 3,
+    "fps": 20,
+    "preceding_grasp_retries": 2,
+    "terminal_mug_root_world_m": [1.79265, -2.22381, 0.77248],
+    "collection_result_sha256": "9dccfa02d8866d4fdaca9d7bba3f462a8def6e63cc74a1027876a12fa891493b"
+  },
+  "replay": {
+    "job": 2437144,
+    "passed": true,
+    "pass_number": 1,
+    "frames": 1210,
+    "mode": "Cartesian/binary actions; no joint-target override, initial joint-state restoration, base feedback or extra terminal hold",
+    "terminal_mug_root_world_m": [1.789, -2.226, 0.7725],
+    "simvqa_records": 16,
+    "simvqa_images": 96,
+    "qa_examples": 162,
+    "replay_status_sha256": "124fd50cb6d223cdd18fedc166d00af7254199b6e6dedf9be82f71db87af6d01",
+    "source_evidence_sha256": "f285d62fd31b19d19efd9f75990a6f9ebe7236f748a16e2f2f690d999635e030",
+    "simvqa_result_sha256": "fa64f8112e33c147d4d408251e54d9a34bddd120cfcace5a28ba99a9eda5c3ba",
+    "qa_sha256": "0b235c22af57acb3d7127919af27640ce3a0a61d4010827a766dac7a7fbde34f"
+  },
+  "followup_collection_trials": [
+    {
+      "job": 2437222,
+      "requested_episodes": 3,
+      "validated_episodes": 0,
+      "passed": false,
+      "frame_budget": 10000,
+      "scope": "Same source goal with corrected pre-action snapshots; historical target-noise defaults retained",
+      "finding": "Perturbed sink parking can put the fixed release target beyond reach; repeated failed approaches and below-rim releases outside the unchanged interior gate",
+      "collection_result_sha256": "1a041fddfacd9c8a82f3845e5fdba0144fd275bc19d74ff0e58fa5b04dab14ce",
+      "review_directory": "outputs/rby1-preaction-bulk-failure-2437222"
+    },
+    {
+      "job": 2437245,
+      "passed": false,
+      "validated_episodes": 0,
+      "eef_target_world_m": [1.88, -2.20, 1.08],
+      "finding": "Moving the release target farther without moving the base remained unreachable; deliberately interrupted after repeated failures",
+      "collection_result_sha256": "6da30acac525286265ac715d72de4640cccdf6dbade3cef862b1f0b9529ceda5",
+      "review_directory": "outputs/rby1-basin-v5-failure-2437245"
+    }
+  ],
+  "scope": "Fresh public runtime on RTX 3090; repaired kitchen-813/00 cavity, mug root within conservative interior disk and below rim, existing home/last-subtask gates retained",
+  "limitations": [
+    "Not full-mesh containment, long-term settling, arbitrary scenes or a success-rate benchmark.",
+    "Legacy proximity positives are not reclassified as basin placement.",
+    "Local uncommitted source snapshots, not a published release or unaffiliated reproduction."
+  ],
+  "local_review_directory": "outputs/rby1-sink-cavity-2437107"
+}

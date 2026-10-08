@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-06",
+  "robot": "anubis",
+  "task": "Isaac-Kitchen-v813-00",
+  "seed": 0,
+  "collection_job": 2400046,
+  "replay_job": 2402691,
+  "physical_replay": {"successful_pass": 1, "success_timestep": 1417, "exit_code": 0},
+  "simvqa": {
+    "capture_validation_passed": true,
+    "records": 26,
+    "checked_images": 156,
+    "covered_goal_indices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    "generated_qa_examples": 276,
+    "result_sha256": "ecd7b0723b085647d373a6bac4dafe027870ae646055caa2a7d871c1c221a49f",
+    "qa_sha256": "c26997f69cc5d992bd12e6f0c6df9fb6933f2c6fe334cc86af1b01444d8398f6",
+    "per_arm_targets": true,
+    "explicit_grasp_annotations": true,
+    "forced_positive_end_labels": false,
+    "zero_based_frame_index": true
+  },
+  "limitations": [
+    "One robot, reference scene and seed, using locally modified source; not an independent public reproduction.",
+    "Capture integrity and annotation consistency are validated; human VQA semantic review and policy benchmarking are not established.",
+    "The source collection predates full scene snapshot recording; initial object poses and replay terminal state are available."
+  ]
+}

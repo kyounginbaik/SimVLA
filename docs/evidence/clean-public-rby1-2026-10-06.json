@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-06",
+  "robot": "rby1",
+  "task": "Isaac-Kitchen-v813r-00",
+  "seed": 0,
+  "collection_job": 2424756,
+  "replay_job": 2426057,
+  "runtime": "Empty venv installed from public packages, pinned cuRobo checkout and checked-in patch; Python 3.10.20, Torch 2.5.1+cu124, NumPy 1.26.4, Isaac Sim 4.5.0",
+  "recipe": "configs/collection/rby1-kitchen813.env",
+  "camera_mount": "Approved above-gripper candidate 07 on both wrists",
+  "export": {
+    "passed": true,
+    "episodes": 1,
+    "frames": 1155,
+    "cameras": 3,
+    "fps": 20,
+    "collection_result_sha256": "4285f8673ca40fe89dbef9228588c55f9519b7253e421e11670a796c5568f2d2"
+  },
+  "physical_replay": {
+    "successful_pass": 1,
+    "success_timestep": 1155,
+    "exit_code": 0,
+    "joint_motor_override": false,
+    "base_tracking_feedback": false
+  },
+  "simvqa": {
+    "capture_validation_passed": true,
+    "records": 16,
+    "checked_images": 96,
+    "generated_qa_examples": 164,
+    "result_sha256": "fa64f8112e33c147d4d408251e54d9a34bddd120cfcace5a28ba99a9eda5c3ba",
+    "qa_sha256": "f45f3fd87a95736c2eb41834ea019b3401414482d304e20243d08f2426914c3a"
+  },
+  "replay_source_evidence_sha256": "e2346269c67a7704759661b894a50a5379ac48579cf4ee3fb58ecdb25636b2d6",
+  "dependency_followup": "The earlier smoke recipe omitted datasets, required by replay. Added datasets under the existing tested constraints; pip check passed. No existing packages changed during this addition.",
+  "local_review_directory": "outputs/clean-public-rby1-2424756",
+  "limitations": [
+    "One kitchen and seed, not an arbitrary-task or campaign reliability claim.",
+    "Local source archive with content hashes, not a reviewed clean release commit.",
+    "Same operator and cluster; not unaffiliated external replication.",
+    "Capture integrity does not establish a human-audited semantic benchmark."
+  ]
+}

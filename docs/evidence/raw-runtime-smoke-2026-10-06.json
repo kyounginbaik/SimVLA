@@ -1,0 +1,200 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-06",
+  "job_id": 2398448,
+  "status": "passed",
+  "scope": "Dependency-consistent isolated simulator, finite robot joints and nonconstant RGB cameras; not complete physical collection or a policy benchmark.",
+  "physical_collection_validated": false,
+  "source": {
+    "commit": "15d200b92f14d3df1907dee703d3026c6d0b5bd4",
+    "dirty": true,
+    "smoke_artifacts": [
+      {
+        "bytes": 6459,
+        "path": "scripts/simvla/smoke_test.py",
+        "sha256": "fd730898696cc5f97db48d26195093935f90e58cb0abdbb036dcd3b5638d9d46"
+      }
+    ]
+  },
+  "runtime": {
+    "python": "3.10.19",
+    "isaac_sim": "4.5.0.0",
+    "isaac_lab": "0.39.0",
+    "torch": "2.5.1+cu124",
+    "torchvision": "0.20.1+cu124",
+    "numpy": "1.26.4",
+    "lerobot_installed": false,
+    "rerun_installed": false,
+    "pip_check": "No broken requirements found.",
+    "curobo_import": "this checkout: third_party/curobo; MotionGen import verified on RTX 3090 in preceding job 2398067",
+    "gpu": "NVIDIA GeForce RTX 3090",
+    "driver": "580.126.09",
+    "cpu_workers": 8,
+    "compatibility_overlay": false
+  },
+  "transport": {
+    "description": "Isolated snapshot recreation packed for node-local use; four pip-overridden Conda build-tool wheels restored offline after packing.",
+    "restored_wheels": {
+      "pip": "26.0.1",
+      "wheel": "0.46.3",
+      "setuptools": "80.10.2",
+      "packaging": "25.0"
+    },
+    "archive_sha256": "9346e8a6e9611616a7f915e2749b9dcc227fa0fed2e3753f1dfbf49761a25546",
+    "public_distribution": false
+  },
+  "log": {
+    "path": "simvla-raw-smoke-2398448.log",
+    "sha256": "3516ff32fe051c1eef28aaed2d8baed10b89dbfa823571cc189cad6efc9c8794"
+  },
+  "source_evidence_sha256": "87f58e47c701e817409de1d0a15b22bcfb5af7662cb321740ecd5d54b2a1da96",
+  "workflow_exit_codes": {
+    "anubis": 0,
+    "rby1": 0,
+    "aiworker": 0
+  },
+  "results": [
+    {
+      "task": "Isaac-Kitchen-v813-00",
+      "robot": "anubis",
+      "seed": 0,
+      "steps": 30,
+      "cameras": {
+        "front": {
+          "shape": [
+            240,
+            320,
+            3
+          ],
+          "std": 34.49961748206554
+        },
+        "scene_cam": {
+          "shape": [
+            480,
+            640,
+            3
+          ],
+          "std": 43.638381110883714
+        },
+        "wrist_right": {
+          "shape": [
+            240,
+            320,
+            3
+          ],
+          "std": 20.28580108132704
+        },
+        "wrist_left": {
+          "shape": [
+            240,
+            320,
+            3
+          ],
+          "std": 35.85425994515458
+        }
+      }
+    },
+    {
+      "task": "Isaac-Kitchen-v813r-00",
+      "robot": "rby1",
+      "seed": 0,
+      "steps": 30,
+      "cameras": {
+        "cctv": {
+          "shape": [
+            240,
+            320,
+            3
+          ],
+          "std": 21.346867068449136
+        },
+        "front": {
+          "shape": [
+            240,
+            320,
+            3
+          ],
+          "std": 37.17071833136207
+        },
+        "scene_cam": {
+          "shape": [
+            480,
+            640,
+            3
+          ],
+          "std": 43.639720877265056
+        },
+        "wrist_right": {
+          "shape": [
+            240,
+            320,
+            3
+          ],
+          "std": 48.841743531398386
+        },
+        "wrist_left": {
+          "shape": [
+            240,
+            320,
+            3
+          ],
+          "std": 50.68062249603241
+        }
+      }
+    },
+    {
+      "task": "Isaac-Kitchen-v813a-00",
+      "robot": "aiworker",
+      "seed": 0,
+      "steps": 30,
+      "cameras": {
+        "cctv": {
+          "shape": [
+            240,
+            320,
+            3
+          ],
+          "std": 42.99519576149546
+        },
+        "front": {
+          "shape": [
+            240,
+            320,
+            3
+          ],
+          "std": 34.340878215455135
+        },
+        "scene_cam": {
+          "shape": [
+            480,
+            640,
+            3
+          ],
+          "std": 43.6381777267537
+        },
+        "wrist_right": {
+          "shape": [
+            240,
+            320,
+            3
+          ],
+          "std": 42.80415684258765
+        },
+        "wrist_left": {
+          "shape": [
+            240,
+            320,
+            3
+          ],
+          "std": 40.4755429918035
+        }
+      },
+      "lift": {
+        "target_m": -0.30000001192092896,
+        "initial_m": -0.30000001192092896,
+        "final_m": -0.2867337465286255,
+        "error_m": 0.013266265392303467
+      }
+    }
+  ]
+}

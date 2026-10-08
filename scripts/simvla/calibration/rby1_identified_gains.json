@@ -1,0 +1,35 @@
+{
+  "_comment": "Per-joint implicit-actuator gains identified 2026-08-31 from rby1_data (free_space + object), median of the per-joint top-5% pools pooled over both logs; see docs/superpowers/plans/2026-08-31-rby1-sysid-findings.md. Loaded by systemid.py --gains.",
+  "stiffness": {
+    "right_arm_0": 14852,
+    "right_arm_1": 4482,
+    "right_arm_2": 4986,
+    "right_arm_3": 6530,
+    "right_arm_4": 1495,
+    "right_arm_5": 3601,
+    "right_arm_6": 406,
+    "left_arm_0": 15607,
+    "left_arm_1": 3683,
+    "left_arm_2": 3841,
+    "left_arm_3": 12629,
+    "left_arm_4": 1515,
+    "left_arm_5": 2447,
+    "left_arm_6": 371
+  },
+  "damping": {
+    "right_arm_0": 6,
+    "right_arm_1": 308,
+    "right_arm_2": 241,
+    "right_arm_3": 435,
+    "right_arm_4": 126,
+    "right_arm_5": 290,
+    "right_arm_6": 41,
+    "left_arm_0": 7,
+    "left_arm_1": 257,
+    "left_arm_2": 260,
+    "left_arm_3": 208,
+    "left_arm_4": 112,
+    "left_arm_5": 214,
+    "left_arm_6": 28
+  }
+}

@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use SimVLA, please cite this project. The paper citation will be updated upon acceptance."
+type: software
+title: "SimVLA: Zero-Shot Sim-to-Real VLA Learning for Mobile Manipulation"
+authors:
+  - family-names: Baik
+    given-names: Kyoungin
+  - family-names: Lee
+    given-names: Youngwoon
+version: 1.0.0
+url: https://kyounginbaik.github.io/simvla/
+repository-code: https://github.com/kyounginbaik/SimVLA
+license: BSD-3-Clause

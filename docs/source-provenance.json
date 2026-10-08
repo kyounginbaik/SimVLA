@@ -1,0 +1,19 @@
+{
+  "source_commit": "db77160323852abf59527f17efdf02b767181a5f",
+  "includes_working_tree_changes": true,
+  "submodules": {
+    "third_party/curobo": {
+      "url": "https://github.com/NVlabs/curobo",
+      "commit": "0a50de1ba72db304195d59d9d0b1ed269696047f",
+      "patch": "third_party/curobo.simvla.patch",
+      "patch_sha256": "f7511a328efadfa4af66d385aaac57c059e955130f2d17941b7f95bd8ee253cd"
+    },
+    "third_party/openpi": {
+      "url": "https://github.com/Physical-Intelligence/openpi",
+      "commit": "c23745b5ad24e98f66967ea795a07b2588ed6c79"
+    }
+  },
+  "release_version": "1.0.0",
+  "runtime_files_copied_initially": 21471,
+  "cleanup": "Generated task corpora and unrelated experiments removed; two example kitchens and real2sim retained."
+}

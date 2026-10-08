@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-06",
+  "robot": "rby1",
+  "task": "Isaac-Kitchen-v813r-00",
+  "seed": 0,
+  "collection_job": 2405318,
+  "replay_job": 2406630,
+  "recipe": "configs/collection/rby1-kitchen813.env",
+  "goal_recipe": "make_rby1_sink_diagnostic.py --parking-advance-m .10 --forward-m .30",
+  "legacy_data_recovery_used": false,
+  "export": {
+    "passed": true,
+    "episodes": 1,
+    "frames": 1127,
+    "cameras": 3,
+    "fps": 20,
+    "initial_scene_snapshot_present": true,
+    "terminal_scene_snapshot_present": true,
+    "collection_result_sha256": "2ae959a791916becf40bd97d36186953fee66a8aa1b6f41df2b48a35295d6b50",
+    "parquet_sha256": "e1634cfa3e5d982ba82f8aa1ae96cb58963f1863a8f768f3bfadd079afd4c3c7"
+  },
+  "physical_replay": {
+    "successful_pass": 1,
+    "success_timestep": 1127,
+    "terminal_mug_xyz_m": [1.6219055652618408, -2.260988712310791, 0.9272291660308838],
+    "exit_code": 0,
+    "status_sha256": "124fd50cb6d223cdd18fedc166d00af7254199b6e6dedf9be82f71db87af6d01"
+  },
+  "simvqa": {
+    "capture_validation_passed": true,
+    "records": 16,
+    "checked_images": 96,
+    "generated_qa_examples": 158,
+    "result_sha256": "fa64f8112e33c147d4d408251e54d9a34bddd120cfcace5a28ba99a9eda5c3ba",
+    "qa_sha256": "579866201419088312079ec0e9ad7f7650af138ebbb520630c4f8c8248f986c2"
+  },
+  "additional_root_snapshot_replay": {
+    "job": 2411154,
+    "successful_pass": 1,
+    "success_timestep": 1127,
+    "base_tracking_feedback": false,
+    "terminal_mug_xyz_m": [1.6306143999099731, -2.2589786052703857, 0.9272306561470032],
+    "simvqa_records": 16,
+    "checked_images": 96,
+    "generated_qa_examples": 157,
+    "status_sha256": "124fd50cb6d223cdd18fedc166d00af7254199b6e6dedf9be82f71db87af6d01",
+    "simvqa_result_sha256": "fa64f8112e33c147d4d408251e54d9a34bddd120cfcace5a28ba99a9eda5c3ba",
+    "qa_sha256": "5fd7716ccfe7690a0c111fcc33ab0c8451134c48b23cfae069e2fc75f15b42ce"
+  },
+  "limitations": [
+    "One kitchen and seed, not arbitrary-task or multi-seed reliability.",
+    "Local modified source with hash-locked public assets; not an independent public reproduction.",
+    "Physics is not claimed bit-identical across GPU or simulator versions.",
+    "Capture integrity and annotation consistency do not constitute a human-audited semantic benchmark.",
+    "Current replay restores recorded object poses, not every velocity in the full initial snapshot."
+  ]
+}

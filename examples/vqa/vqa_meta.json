@@ -1,0 +1,32 @@
+{
+  "task": "Isaac-Kitchen-v813-00",
+  "task_language": "Put bowl inside drawer.",
+  "subtasks": {
+    "0": "Move to bowl",
+    "1": "Right arm to bowl",
+    "2": "Grasp the bowl",
+    "3": "Reset to original position",
+    "4": "Left Arm to pre-grasp pull handle",
+    "5": "Left Arm to grasp pull handle",
+    "6": "Left Gripper Grasp",
+    "7": "Move back to open drawer",
+    "8": "Move Right arm to place in drawer",
+    "9": "Release",
+    "10": "Reset to original position",
+    "11": "Move front to close drawer"
+  },
+  "targets": {
+    "0": "bowl0",
+    "1": "bowl0",
+    "2": "bowl0",
+    "3": "bowl0",
+    "4": "bowl0",
+    "5": "bowl0",
+    "6": "bowl0",
+    "7": "bowl0",
+    "8": "bowl0",
+    "9": "bowl0",
+    "10": "bowl0",
+    "11": "bowl0"
+  }
+}

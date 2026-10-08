@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-06",
+  "task": "Isaac-Kitchen-v813a-00",
+  "scope": "Explicitly initialized object drop; not robot collection or replay evidence",
+  "sink_bounds_world_m": [[1.5160248736, -2.5472675790, 0.7209071517], [2.0663748290, -1.9768670241, 0.8656373620]],
+  "trials": [
+    {"job": "2436896_0", "decompose_meshes": false, "remove_xform_colliders": false, "terminal_root_z_m": 0.90107036, "below_rim": false, "report_sha256": "c64aee8350230e95d0f778dbe09257536dc1f70d9e4abeca5d0ceb163b574dc2"},
+    {"job": "2436896_1", "decompose_meshes": true, "remove_xform_colliders": false, "terminal_root_z_m": 0.90106910, "below_rim": false, "report_sha256": "5d647fa37dbfe487189086f37748d230dd4268ab9fb129d8058f33da37fd323c"},
+    {"job": "2436905_0", "decompose_meshes": false, "remove_xform_colliders": true, "terminal_root_z_m": 0.90107083, "below_rim": false, "report_sha256": "dfbf0e1ce6fbfd0f0f5a9d8aab5620da02cd124ad97b67b8a4032861a3e42ac5"},
+    {"job": "2436905_1", "decompose_meshes": true, "remove_xform_colliders": true, "terminal_root_z_m": 0.74676496, "below_rim": true, "report_sha256": "180a45cd25712b91771bfa2adf3dabb3f7f3a6a32d8cb08357fe014a0c2c7162"}
+  ],
+  "source_fix": "scripts/simvla/sink_collision.py",
+  "new_robot_collection_replay_validated": true,
+  "validated_robot_chains": ["rby1"],
+  "robot_chain_evidence": ["rby1-basin-reference-2026-10-06.json"],
+  "robot_followups": [
+    {"job": 2436960, "robot": "rby1", "passed": false, "cause": "Absolute placement missed by 0.2016 m; interrupted after delivery failure"},
+    {"job": 2437048, "robot": "rby1", "passed": false, "terminal_mug_root_world_m": [1.7409, -2.3245, 0.7725], "cause": "Below rim, but outside unchanged interior XY disk; no accepted episode", "collection_result_sha256": "f3712c707b28bf6cba31669df858c8c50e7fb6fdf4b713ec05be9bc479b6fa27", "review_directory": "outputs/rby1-sink-cavity-2437048"}
+  ],
+  "legacy_claim_correction": "Door-anchor proximity is not containment; earlier sink passes can accept countertop placement",
+  "local_review_directory": "outputs/sink-collision-review-20261006"
+}

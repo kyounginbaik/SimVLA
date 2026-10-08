@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-06",
+  "robot": "anubis",
+  "task": "Isaac-Kitchen-v813-00",
+  "seed": 0,
+  "collection_job": 2400046,
+  "replay_job": 2400601,
+  "collection": {
+    "accepted_episodes": 1,
+    "validated_frames": 1418,
+    "synchronized_cameras": 3,
+    "fps": 20,
+    "physics_substeps": 6,
+    "joint_target_snapshot_fix": true,
+    "nonconstant_joint_target_axes": 16,
+    "total_joint_target_axes": 19,
+    "result_sha256": "ae49bc95418552fe451e110e2b489b134a0a8c96e1a5cd6567d5da31980590dd"
+  },
+  "replay": {
+    "successful_pass": 1,
+    "success_timestep": 1417,
+    "exit_code": 0,
+    "source_relocated_to_node_local_directory": true,
+    "status_sha256": "124fd50cb6d223cdd18fedc166d00af7254199b6e6dedf9be82f71db87af6d01",
+    "hdf5_sha256": "b9b8be1e8eaceb407a9a5e36ee936df08210f4f2dd0c530fc4c6e2c5fad2e084",
+    "terminal_bowl_position_environment_m": [1.1175198555, -0.1873534918, 0.6789097786],
+    "terminal_drawer_joint_position_m": 0.0297916122,
+    "success_videos_written": ["front", "wrist_left", "wrist_right"]
+  },
+  "limitations": [
+    "One reference scene, robot, and seed; not a three-robot or arbitrary-scene reliability claim.",
+    "Original collector success predicate checks bowl height, arm home, drawer closure, and final subtask. The recorded terminal bowl position was additionally checked against this drawer's asset bounds.",
+    "The 26 SimVQA frame records from this replay predate the per-arm target-label fix; they are not validated semantic VQA evidence.",
+    "This is a local dirty-source validation with a relocated source tree, not an independent public reproduction or bitwise GPU determinism claim."
+  ]
+}

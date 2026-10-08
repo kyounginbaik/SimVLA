@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-06",
+  "runtime": "Fresh public simulator installation, Python 3.10.20 / Isaac Sim 4.5 / Torch 2.5.1+cu124",
+  "goal_authoring": [
+    {"robot": "anubis", "job": 2427550, "task": "Isaac-Kitchen-v813-00",
+     "log_sha256": "15a571191faa4b444fee3ff89e5793771b5618fabe7c612de8ae047787b689f9"},
+    {"robot": "rby1", "job": 2428350, "task": "Isaac-Kitchen-v813r-00",
+     "log_sha256": "29a568964c6fe334fb626caf95b44c3e1d8cc21a9787c5cfbddbc99bf103c17a"},
+    {"robot": "aiworker", "job": 2428351, "task": "Isaac-Kitchen-v813a-00",
+     "log_sha256": "a139bfd5137da6c151952e93af6794346410e141823b4217cdaaee31f46a15e8"}
+  ],
+  "authoring_fixes": [
+    "Load Tk only when opening an interactive editor, not when registering headless planners.",
+    "Run the selected robot config adapter and rename the generated goal to the matching suffixed task ID."
+  ],
+  "material_smoke": {
+    "robot": "anubis", "job": 2427922, "steps": 100,
+    "finite_physics_and_rgb": true, "camera_count": 4,
+    "logged_error_count": 0,
+    "fix": "Create missing project_uvw input on existing OmniPBR shaders in the live stage; preserve binding, textures and asset files.",
+    "log_sha256": "98d88c28a5fc519be9c53cec5f0bba88ce9e379266244303351d6a87432be292"
+  },
+  "scope": "Headless authoring/config adaptation and bounded startup checks; freshly authored tasks still require collection and physical replay."
+}

@@ -1,0 +1,15 @@
+{
+  "_comment": "SimVQA calibration for the FFW_SG2 AI Worker used by kitchen collection. This is distinct from ai_worker_bg2.json, which describes the BG2 system-identification embodiment.",
+  "arms": 2,
+  "mobile": true,
+  "_dataset_frame_derivation": "Inverse of the shared simulated dataset encoding in ActionManager.action_absolute and kitchen/mdp/observations.ee_6d_pos: p_dataset = p_base + R*[0,0,-0.10956] + [0.095,0,-0.823356]. These offsets decode simulated data; they are not measured AI Worker hardware calibration.",
+  "real_to_sim_frame_offset_xyz": [-0.095, 0.0, 0.823356],
+  "eef_to_grasp_offset_local_xyz": [0.0, 0.0, 0.10956],
+  "vqa": {
+    "_comment": "Link and joint names from Robots/MM/aiworker/ffw_sg2.usd. Gripper closure uses one revolute joint's displacement in radians from its reset reading.",
+    "base_body": "base_link",
+    "ee_links": {"left": "ee_link2", "right": "ee_link1"},
+    "gripper_joints": {"left": "gripper_l_joint1", "right": "gripper_r_joint1"},
+    "gripper_closed_travel": 0.02
+  }
+}

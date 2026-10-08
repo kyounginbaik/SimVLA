@@ -1,0 +1,126 @@
+{
+  "name": "bottle_counter_to_table",
+  "language": "Pick up the bottle and put it on the table.",
+  "roles": [
+    {
+      "name": "target",
+      "object_type": "bottle",
+      "articulation_with": null,
+      "handle_of": null
+    }
+  ],
+  "steps": [
+    {
+      "skill": "nav.to_prim",
+      "action": "N_s",
+      "params": {
+        "prim_path": "@target",
+        "which_arm": "Right",
+        "safety": 0.2
+      },
+      "language": "Drive to the counter"
+    },
+    {
+      "skill": "arm.grasp",
+      "action": "A_r",
+      "params": {
+        "prim_path": "@target"
+      },
+      "language": "Reach for the bottle"
+    },
+    {
+      "skill": "gripper.set",
+      "action": "G_r",
+      "params": {
+        "grasp": true
+      },
+      "language": "Close the gripper"
+    },
+    {
+      "skill": "arm.reset",
+      "action": "A_r",
+      "params": {},
+      "language": "Lift the bottle clear of the counter"
+    },
+    {
+      "skill": "nav.to_prim",
+      "action": "N_s",
+      "params": {
+        "prim_path": "/world/table",
+        "which_arm": "Right",
+        "safety": 0.12
+      },
+      "language": "Drive to the table"
+    },
+    {
+      "skill": "arm.place",
+      "action": "A_r",
+      "params": {
+        "prim_path": "/world/table/top",
+        "clearance_m": 0.095,
+        "eef_above_base_m": 0.115
+      },
+      "language": "Set the bottle down just above the table"
+    },
+    {
+      "skill": "gripper.set",
+      "action": "G_r",
+      "params": {
+        "grasp": false
+      },
+      "language": "Let go"
+    },
+    {
+      "skill": "arm.reset",
+      "action": "A_r",
+      "params": {},
+      "language": "Withdraw"
+    }
+  ],
+  "subtask_groups": [
+    [
+      0,
+      1,
+      2,
+      3
+    ],
+    [
+      4,
+      5,
+      6
+    ],
+    [
+      7
+    ]
+  ],
+  "scene": [],
+  "success": {
+    "all": [
+      {
+        "obj_near_prim": {
+          "role": "@target",
+          "target_role": "table",
+          "radius": 0.3,
+          "xy_only": true
+        }
+      },
+      {
+        "obj_z": {
+          "role": "@target",
+          "lo": 0.6,
+          "hi": 0.9
+        }
+      },
+      {
+        "eef_home": {
+          "arm": "right",
+          "radius": 0.18
+        }
+      },
+      {
+        "last_subtask": {}
+      }
+    ]
+  },
+  "retry": null
+}

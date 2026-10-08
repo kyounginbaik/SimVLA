@@ -1,0 +1,35 @@
+{
+  "_comment": "K = per-joint median of survivors of the K 10-1000 / D 10-100 sweep at qpos_thres 0.7 (object log, 512 survivors); D = zeta 0.7 of critical from joint_inertia_kgm2. A coherent, physically consistent set -- NOT an identified one (0/28 were identified).",
+  "stiffness": {
+    "right_arm_0": 428,
+    "right_arm_1": 141,
+    "right_arm_2": 236,
+    "right_arm_3": 369,
+    "right_arm_4": 116,
+    "right_arm_5": 192,
+    "right_arm_6": 224,
+    "left_arm_0": 385,
+    "left_arm_1": 156,
+    "left_arm_2": 217,
+    "left_arm_3": 415,
+    "left_arm_4": 221,
+    "left_arm_5": 227,
+    "left_arm_6": 270
+  },
+  "damping": {
+    "right_arm_0": 33.6,
+    "right_arm_1": 20.4,
+    "right_arm_2": 2.1,
+    "right_arm_3": 16.5,
+    "right_arm_4": 0.9,
+    "right_arm_5": 3.8,
+    "right_arm_6": 0.7,
+    "left_arm_0": 31.8,
+    "left_arm_1": 21.5,
+    "left_arm_2": 2.0,
+    "left_arm_3": 17.5,
+    "left_arm_4": 1.2,
+    "left_arm_5": 4.1,
+    "left_arm_6": 0.8
+  }
+}

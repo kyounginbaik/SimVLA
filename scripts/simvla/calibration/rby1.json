@@ -1,0 +1,205 @@
+{
+  "_comment": "Robot-specific config for the RB-Y1 bimanual mobile manipulator. simvla_deploy.py --robot rby1 reads ONLY the two offset fields (see apply_action_postprocess). systemid.py --robot rby1 --control joint reads layouts.joint + qpos_init; its dataset columns come from systemid_core.load_rby1_npz (right arm, left arm, torso).",
+  "_derivation": "These are NOT copied from anubis.json on the assumption that RB-Y1 shares Anubis's geometry. They are the exact inverse of the frame convention that kitchen/mdp/observations.py:ee_6d_pos bakes into the OBSERVATION, and that function is shared verbatim by the Anubis and RB-Y1 molmospace envs with no robot conditional: it computes the EE pose in base_link frame, then applies R @ [0,0,-0.10956], x += 0.095, z += -0.823356 for BOTH arms regardless of robot. apply_action_postprocess must undo exactly that to turn the policy's action back into a base-frame target, so the offsets it needs are fixed by observations.py, not by the robot's own link geometry. If ee_6d_pos ever becomes robot-aware, this file must change with it.",
+  "arms": 2,
+  "mobile": true,
+  "vqa": {
+    "_comment": "SimVQA replay names from the RB-Y1 USD articulation. The gripper value is one finger's prismatic travel in metres from its reset reading.",
+    "base_body": "base_link",
+    "ee_links": {"left": "ee_link2", "right": "ee_link1"},
+    "gripper_joints": {"left": "gripper_finger_l1", "right": "gripper_finger_r1"},
+    "gripper_closed_travel": 0.002
+  },
+  "real_to_sim_frame_offset_xyz": [
+    -0.095,
+    0.0,
+    0.823356
+  ],
+  "eef_to_grasp_offset_local_xyz": [
+    0.0,
+    0.0,
+    0.10956
+  ],
+  "layouts": {
+    "joint": {
+      "input": {
+        "joints": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ]
+      },
+      "output": [
+        "joints"
+      ]
+    }
+  },
+  "qpos_init": {
+    "source": "observation.state",
+    "joints": {
+      "right_arm_0": 0,
+      "right_arm_1": 1,
+      "right_arm_2": 2,
+      "right_arm_3": 3,
+      "right_arm_4": 4,
+      "right_arm_5": 5,
+      "right_arm_6": 6,
+      "left_arm_0": 7,
+      "left_arm_1": 8,
+      "left_arm_2": 9,
+      "left_arm_3": 10,
+      "left_arm_4": 11,
+      "left_arm_5": 12,
+      "left_arm_6": 13,
+      "torso_0": 14,
+      "torso_1": 15,
+      "torso_2": 16,
+      "torso_3": 17,
+      "torso_4": 18,
+      "torso_5": 19
+    }
+  },
+  "joint_inertia_kgm2": {
+    "right_arm_0": 1.344701,
+    "right_arm_1": 1.505387,
+    "right_arm_2": 0.009777,
+    "right_arm_3": 0.377204,
+    "right_arm_4": 0.003484,
+    "right_arm_5": 0.037383,
+    "right_arm_6": 0.001155,
+    "left_arm_0": 1.344115,
+    "left_arm_1": 1.505387,
+    "left_arm_2": 0.009777,
+    "left_arm_3": 0.377228,
+    "left_arm_4": 0.003484,
+    "left_arm_5": 0.037383,
+    "left_arm_6": 0.001155
+  },
+  "_joint_inertia_comment": "Locked-chain inertia about each arm joint's axis at ZERO configuration, from joint_inertia.py. A fixed reference scale for the damping ratio zeta = D/(2*sqrt(K*I)); the true inertia is configuration-dependent, so this sets the coordinate, not the truth.",
+  "joint_limits_rad": {
+    "torso_0": [
+      -0.261799388,
+      0.261799388
+    ],
+    "torso_1": [
+      -0.523598776,
+      1.570796327
+    ],
+    "torso_2": [
+      -2.617993878,
+      1.570796327
+    ],
+    "torso_3": [
+      -0.785398163,
+      1.570796327
+    ],
+    "torso_4": [
+      -0.523598776,
+      0.523598776
+    ],
+    "torso_5": [
+      -2.35619449,
+      2.35619449
+    ],
+    "right_arm_0": [
+      -3.141592654,
+      3.141592654
+    ],
+    "right_arm_1": [
+      -3.141592654,
+      0.017453293
+    ],
+    "right_arm_2": [
+      -3.141592654,
+      3.141592654
+    ],
+    "right_arm_3": [
+      -2.617993878,
+      0.017453293
+    ],
+    "right_arm_4": [
+      -3.141592654,
+      3.141592654
+    ],
+    "right_arm_5": [
+      -1.570796327,
+      1.919862177
+    ],
+    "right_arm_6": [
+      -2.70526034,
+      2.70526034
+    ],
+    "left_arm_0": [
+      -3.141592654,
+      3.141592654
+    ],
+    "left_arm_1": [
+      -0.017453293,
+      3.141592654
+    ],
+    "left_arm_2": [
+      -3.141592654,
+      3.141592654
+    ],
+    "left_arm_3": [
+      -2.617993878,
+      0.017453293
+    ],
+    "left_arm_4": [
+      -3.141592654,
+      3.141592654
+    ],
+    "left_arm_5": [
+      -1.570796327,
+      1.919862177
+    ],
+    "left_arm_6": [
+      -2.70526034,
+      2.70526034
+    ],
+    "gripper_finger_r1": [
+      -0.05,
+      0.0
+    ],
+    "gripper_finger_r2": [
+      0.0,
+      0.05
+    ],
+    "gripper_finger_l1": [
+      -0.05,
+      0.0
+    ],
+    "gripper_finger_l2": [
+      0.0,
+      0.05
+    ],
+    "head_0": [
+      -0.523,
+      0.523
+    ],
+    "head_1": [
+      -0.35,
+      1.57
+    ]
+  },
+  "_joint_limits_comment": "Joint limits from the RB-Y1 URDF, used to clamp a replay's initial pose. MolmoBot's model is slightly wider -- a door-opening episode starts right_arm_1 at 0.023 where this URDF caps 0.017 -- and Isaac raises on an out-of-limit default rather than clamping."
+}

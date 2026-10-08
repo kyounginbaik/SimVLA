@@ -1,0 +1,35 @@
+{
+  "_comment": "identified STIFFNESS with the old per-arm DAMPING (139 right / 247 left): isolates damping.",
+  "stiffness": {
+    "right_arm_0": 14852,
+    "right_arm_1": 4482,
+    "right_arm_2": 4986,
+    "right_arm_3": 6530,
+    "right_arm_4": 1495,
+    "right_arm_5": 3601,
+    "right_arm_6": 406,
+    "left_arm_0": 15607,
+    "left_arm_1": 3683,
+    "left_arm_2": 3841,
+    "left_arm_3": 12629,
+    "left_arm_4": 1515,
+    "left_arm_5": 2447,
+    "left_arm_6": 371
+  },
+  "damping": {
+    "right_arm_0": 139,
+    "right_arm_1": 139,
+    "right_arm_2": 139,
+    "right_arm_3": 139,
+    "right_arm_4": 139,
+    "right_arm_5": 139,
+    "right_arm_6": 139,
+    "left_arm_0": 247,
+    "left_arm_1": 247,
+    "left_arm_2": 247,
+    "left_arm_3": 247,
+    "left_arm_4": 247,
+    "left_arm_5": 247,
+    "left_arm_6": 247
+  }
+}

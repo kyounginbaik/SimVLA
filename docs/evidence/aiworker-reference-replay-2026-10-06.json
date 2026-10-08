@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-06",
+  "robot": "aiworker",
+  "task": "Isaac-Kitchen-v813a-00",
+  "seed": 0,
+  "collection_job": 2408283,
+  "replay_job": 2412231,
+  "recipe": "configs/collection/aiworker-kitchen813.env",
+  "goal_recipe": "make_aiworker_native97_diagnostic.py --preserve-grasp-carry --wall-clearance --carry-forward-m .15 --angled-sink --bank PINNED_PUBLIC_LEFT_BANK",
+  "grasp_bank_sha256": "cb630aee81c2701a7774292c7e52ee70f075e8a5651101e92c57216c8f3b4909",
+  "collection": {
+    "accepted_episode": true,
+    "native_bodex_orientation": true,
+    "grasp_trajectory_midpoint_pause_ticks": 51,
+    "failed_plan_cartesian_fallback_enabled": false,
+    "frames": 1915,
+    "cameras": 3,
+    "fps": 20,
+    "initial_scene_snapshot_present": true,
+    "terminal_scene_snapshot_present": true,
+    "terminal_mug_xyz_m": [1.6351975202560425, -2.2528836727142334, 0.9267874360084534],
+    "export_validation_passed": true,
+    "collection_result_sha256": "5d45570da5bf104d2ae475e420cb2d7620c3a9de62a47c8ba359f4a92b4798c0",
+    "parquet_sha256": "a031b42e72e5392b2f02216e999a3d1248c5177776e8499008527a010978d163"
+  },
+  "physical_replay": {
+    "successful_pass": 1,
+    "success_timestep": 1915,
+    "exit_code": 0,
+    "arm_gripper_mode": "recorded action.joint motor targets through physical actuators",
+    "base_mode": "recorded local velocity plus bounded feedback against recorded base poses",
+    "base_feedback_limits": {"translation_m_s": 0.05, "yaw_rad_s": 0.1},
+    "joint_state_teleportation_during_execution": false,
+    "terminal_mug_xyz_m": [1.6012908220291138, -2.2735679149627686, 0.9267876148223877],
+    "status_sha256": "124fd50cb6d223cdd18fedc166d00af7254199b6e6dedf9be82f71db87af6d01"
+  },
+  "simvqa": {
+    "capture_validation_passed": true,
+    "records": 16,
+    "checked_images": 96,
+    "generated_qa_examples": 161,
+    "result_sha256": "fa64f8112e33c147d4d408251e54d9a34bddd120cfcace5a28ba99a9eda5c3ba",
+    "qa_sha256": "5ea45a05d9a76df1173acf7ee12ba2826ab7a0f41560f79a6708e11b367097e3"
+  },
+  "failed_replays_preserved": [2409434, 2409654, 2410550, 2410711, 2411416, 2411543],
+  "limitations": [
+    "One kitchen and seed; not arbitrary-task, multi-seed, or universal reliability.",
+    "This is state-referenced joint-trajectory replay, not reproduction from the Cartesian/binary action stream alone.",
+    "Local relocated-source reproduction with public hash-locked assets, not an unaffiliated external reproduction.",
+    "Not bit-identical physics and not a hardware-calibration claim.",
+    "The mug is inside the sink but is not required to be upright.",
+    "Capture integrity and annotation consistency are not a human-audited semantic benchmark.",
+    "Current planning collision models are partial; no whole-body collision guarantee."
+  ]
+}

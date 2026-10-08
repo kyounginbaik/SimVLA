@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "simvla"
+version = "1.0.0"
+description = "Kitchen task generation and simulation-data tools for mobile manipulation"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+  {name = "Kyoungin Baik"},
+  {name = "Youngwoon Lee"},
+]
+keywords = ["robotics", "mobile manipulation", "vision-language-action", "simulation", "Isaac Sim"]
+license = "BSD-3-Clause"
+license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md"]
+dependencies = []
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.urls]
+Homepage = "https://kyounginbaik.github.io/simvla/"
+Repository = "https://github.com/kyounginbaik/SimVLA"
+Paper = "https://kyounginbaik.github.io/simvla/static/pdfs/SimVLA.pdf"
+Documentation = "https://github.com/kyounginbaik/SimVLA#readme"
+
+[project.optional-dependencies]
+scenes = ["scene-synthesizer==1.15.0", "numpy>=1.24,<3", "trimesh>=4.6,<5", "xatlas>=0.0.9,<1"]
+data = ["numpy>=1.24,<3", "pyarrow>=16,<23", "av>=12,<17"]
+dev = ["pytest>=8,<10", "build>=1.2", "twine>=5", "PyYAML>=6,<7", "zstandard>=0.22,<1"]
+
+[project.scripts]
+simvla = "simvla.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+simvla = ["templates/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-06",
+  "robot": "rby1",
+  "task": "Isaac-Kitchen-v813r-00",
+  "seed": 0,
+  "collection_job": 2420742,
+  "replay_job": 2421471,
+  "camera_mount": "User-approved candidate 07 on both wrists",
+  "recipe": "configs/collection/rby1-kitchen813.env",
+  "export": {
+    "passed": true,
+    "episodes": 1,
+    "frames": 1126,
+    "cameras": 3,
+    "fps": 20,
+    "collection_result_sha256": "84c21adf9218a05ffd3bea3fa68eb664e842d25ece269220e076e335a19d3d8e"
+  },
+  "physical_replay": {
+    "successful_pass": 1,
+    "success_timestep": 1126,
+    "exit_code": 0,
+    "joint_motor_override": false,
+    "base_tracking_feedback": false
+  },
+  "simvqa": {
+    "capture_validation_passed": true,
+    "records": 16,
+    "checked_images": 96,
+    "generated_qa_examples": 164,
+    "result_sha256": "fa64f8112e33c147d4d408251e54d9a34bddd120cfcace5a28ba99a9eda5c3ba",
+    "qa_sha256": "c23174bb915be0a02ee78a257a38d860bd4633b8eb0ff01a4516c0bf1f9a2949"
+  },
+  "local_review_directory": "outputs/rby1-camera07-validation-2420742",
+  "limitations": [
+    "One scene and seed; this record does not establish a campaign success rate.",
+    "Modified local source and public assets, not an unaffiliated fresh-install reproduction.",
+    "Capture validation is not a human-audited semantic benchmark."
+  ]
+}

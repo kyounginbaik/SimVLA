@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-06",
+  "status": "passed",
+  "scope": "Real headless Chromium DOM and HTTP setup/step-transition smoke; no simulator",
+  "python": "3.10.20",
+  "playwright": "1.63.0",
+  "chromium": "153.0.8010.12",
+  "robots": ["anubis", "rby1", "aiworker"],
+  "tests_passed": 3,
+  "command": "SIMVLA_BROWSER_SMOKE=1 PYTHONPATH=src:scripts/simvla python -m pytest scripts/simvla/test_browser_wizard.py -q",
+  "checks": [
+    "Boot page transitions to setup without manual reload",
+    "Invalid kitchen number is rejected without server submission",
+    "Valid setup preserves the selected robot ID and empty object list",
+    "Server-published choice appears and submits its exact option ID",
+    "No browser page errors during the tested flow"
+  ],
+  "not_validated": ["GPU director", "3D preview", "Full scene regeneration", "Generated-scene physics", "Hosted CI"],
+  "source_state": "Uncommitted working-tree diagnostic; not a published release record"
+}

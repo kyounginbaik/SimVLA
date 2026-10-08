@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-06",
+  "job_id": 2399789,
+  "robot": "aiworker",
+  "runtime": "isolated raw simulator, Torch 2.5.1+cu124, no compatibility overlay",
+  "scope": "Diagnosis of adaptive finger instrumentation, not a complete collection pass",
+  "log_sha256": "3871be7d24271cb2d5902e0601a2d28492574936edb318ee5e7210e0bf61b961",
+  "object": "mug0",
+  "object_mass_kg": 0.7262794971466064,
+  "object_z_at_close_m": 0.9018936157226562,
+  "object_z_after_lift_m": 1.0689412355422974,
+  "distal_contact_force_n": [12.242618560791016, 0.0],
+  "proximal_contact_force_n": [33.91511535644531, 45.903167724609375],
+  "old_controller_preload_fraction_after_lift": [0.0, 1.0],
+  "interpretation": "Both proximal segments remain in object-filtered contact while one distal segment unloads. Distal-only force balance closes an already-loaded adaptive finger to its limit. Measure each finger's proximal and distal segments together.",
+  "accepted_episodes": 0,
+  "collection_passed": false,
+  "followup_requires": "New full-task collection and replay with corrected finger measurements; do not relabel this rejected run as successful."
+}

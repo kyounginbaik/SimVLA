@@ -1,0 +1,110 @@
+{
+  "name": "mug_to_sink_left",
+  "language": "Grasp the mug and put it in the sink with the left arm.",
+  "roles": [
+    {
+      "name": "target",
+      "object_type": "mug",
+      "articulation_with": null,
+      "handle_of": null
+    }
+  ],
+  "steps": [
+    {
+      "skill": "nav.to_prim",
+      "action": "N_s",
+      "params": {
+        "prim_path": "@target",
+        "which_arm": "Left",
+        "safety": 0.28
+      },
+      "language": "Drive to the mug"
+    },
+    {
+      "skill": "arm.grasp",
+      "action": "A_l",
+      "params": {
+        "prim_path": "@target"
+      },
+      "language": "Reach for the mug with the left arm"
+    },
+    {
+      "skill": "gripper.set",
+      "action": "G_l",
+      "params": {
+        "grasp": true
+      },
+      "language": "Grasp the mug"
+    },
+    {
+      "skill": "arm.reset",
+      "action": "A_l",
+      "params": {},
+      "language": "Lift the mug"
+    },
+    {
+      "skill": "nav.to_prim",
+      "action": "N_s",
+      "params": {
+        "prim_path": "/world/sink_cabinet",
+        "which_arm": "Left",
+        "safety": 0.15
+      },
+      "language": "Drive to the sink"
+    },
+    {
+      "skill": "arm.bowl_place",
+      "action": "A_l",
+      "params": {},
+      "language": "Move the mug over the sink"
+    },
+    {
+      "skill": "gripper.set",
+      "action": "G_l",
+      "params": {
+        "grasp": false
+      },
+      "language": "Release the mug"
+    },
+    {
+      "skill": "arm.reset",
+      "action": "A_l",
+      "params": {},
+      "language": "Return the arm home"
+    }
+  ],
+  "subtask_groups": [
+    [
+      3
+    ],
+    [
+      5,
+      6,
+      7
+    ]
+  ],
+  "scene": [],
+  "success": {
+    "all": [
+      {
+        "obj_near_prim": {
+          "role": "@target",
+          "target_role": "sink_cabinet",
+          "radius": 0.12,
+          "anchor": "door_midpoint",
+          "z_override": 0.88
+        }
+      },
+      {
+        "eef_home": {
+          "arm": "both",
+          "radius": 0.05
+        }
+      },
+      {
+        "last_subtask": {}
+      }
+    ]
+  },
+  "retry": null
+}

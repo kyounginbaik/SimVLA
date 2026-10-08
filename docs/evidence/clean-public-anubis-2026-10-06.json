@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-06",
+  "robot": "anubis",
+  "task": "Isaac-Kitchen-v813-00",
+  "seed": 0,
+  "collection_job": 2426755,
+  "replay_job": 2429275,
+  "runtime": "Fresh public Python 3.10.20 / Torch 2.5.1+cu124 / NumPy 1.26.4 / Isaac Sim 4.5.0 installation, pinned public cuRobo plus checked-in patch",
+  "recipe": "configs/collection/anubis-kitchen813.env",
+  "export": {
+    "passed": true,
+    "episodes": 1,
+    "frames": 1212,
+    "cameras": 3,
+    "fps": 20,
+    "collection_result_sha256": "7d2a577a9b30d141c65547755cbed1725d505dd489c951f1924b829749918fea"
+  },
+  "physical_replay": {
+    "successful_pass": 1,
+    "success_timestep": 1212,
+    "exit_code": 0,
+    "joint_motor_override": true,
+    "base_tracking_feedback": true,
+    "initial_object_velocities_restored": true
+  },
+  "simvqa": {
+    "capture_validation_passed": true,
+    "records": 26,
+    "checked_images": 156,
+    "generated_qa_examples": 275,
+    "result_sha256": "ecd7b0723b085647d373a6bac4dafe027870ae646055caa2a7d871c1c221a49f",
+    "qa_sha256": "f9f2894a37a0aec864745cfc19a286f3e7c389e9214f52a0ad96300e20b66cec"
+  },
+  "replay_source_evidence_sha256": "7ad52f99ab6aee2a4339e4e5db5df83b64d1245701101e4e7d148a968b35df53",
+  "failed_predecessor": {
+    "job": 2428146,
+    "followup": "Replay restored pose but omitted recorded object momentum. Restoring initial linear/angular velocities reproduced physical success. Failure video retained."
+  },
+  "local_review_directory": "outputs/clean-public-anubis-2426755",
+  "limitations": [
+    "One recipe, kitchen and seed; not arbitrary-task reliability.",
+    "Local source archive with content hashes, not a clean release commit or independent replication.",
+    "Capture integrity does not establish a human-audited semantic benchmark."
+  ]
+}

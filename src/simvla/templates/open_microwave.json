@@ -1,0 +1,188 @@
+{
+  "name": "open_microwave",
+  "language": "Open the microwave door.",
+  "roles": [
+    {
+      "name": "microwave",
+      "object_type": null,
+      "articulation_with": "microwave",
+      "handle_of": null
+    },
+    {
+      "name": "microwave_handle",
+      "object_type": null,
+      "articulation_with": null,
+      "handle_of": "microwave"
+    }
+  ],
+  "steps": [
+    {
+      "skill": "nav.to_door_handle",
+      "action": "N_s",
+      "params": {
+        "prim_path": "@microwave_handle",
+        "standoff_m": 0.78,
+        "past_m": 0.0
+      },
+      "language": "Move to the microwave, standing clear of the door"
+    },
+    {
+      "skill": "arm.fridge_handle_pregrasp",
+      "action": "A_r",
+      "params": {
+        "prim_path": "@microwave_handle"
+      },
+      "language": "Reach toward the microwave door handle"
+    },
+    {
+      "skill": "arm.fridge_handle_grasp",
+      "action": "A_r",
+      "params": {
+        "prim_path": "@microwave_handle"
+      },
+      "language": "Grip the microwave door handle"
+    },
+    {
+      "skill": "gripper.set",
+      "action": "G_r",
+      "params": {
+        "grasp": true
+      },
+      "language": "Close the gripper on the handle"
+    },
+    {
+      "skill": "nav.open_articulation",
+      "action": "N",
+      "params": {
+        "back_off_m": 0.06,
+        "which_arm": "Right"
+      },
+      "language": "Pull the door out of its frame"
+    },
+    {
+      "skill": "nav.open_door_arc",
+      "action": "N",
+      "params": {
+        "radius_m": 0.4186,
+        "hinge_side": "Left",
+        "sweep_deg": 0.0,
+        "back_off_m": 0.15,
+        "diag_deg": 51.081671095347794
+      },
+      "language": "Pull the door open, moving diagonally back"
+    },
+    {
+      "skill": "nav.open_door_arc",
+      "action": "N",
+      "params": {
+        "radius_m": 0.4186,
+        "hinge_side": "Left",
+        "sweep_deg": 0.0,
+        "back_off_m": 0.15,
+        "diag_deg": 51.081671095347794
+      },
+      "language": "Keep pulling the door open"
+    },
+    {
+      "skill": "nav.open_door_arc",
+      "action": "N",
+      "params": {
+        "radius_m": 0.4186,
+        "hinge_side": "Left",
+        "sweep_deg": 0.0,
+        "back_off_m": 0.15,
+        "diag_deg": 51.081671095347794
+      },
+      "language": "Swing the microwave door wide"
+    },
+    {
+      "skill": "nav.open_door_arc",
+      "action": "N",
+      "params": {
+        "radius_m": 0.4186,
+        "hinge_side": "Left",
+        "sweep_deg": 0.0,
+        "back_off_m": 0.15,
+        "diag_deg": 51.081671095347794
+      },
+      "language": "Pull the door open, moving diagonally back"
+    },
+    {
+      "skill": "nav.open_door_arc",
+      "action": "N",
+      "params": {
+        "radius_m": 0.4186,
+        "hinge_side": "Left",
+        "sweep_deg": 0.0,
+        "back_off_m": 0.15,
+        "diag_deg": 51.081671095347794
+      },
+      "language": "Keep pulling the door open"
+    },
+    {
+      "skill": "gripper.set",
+      "action": "G_r",
+      "params": {
+        "grasp": false
+      },
+      "language": "Let go of the handle"
+    },
+    {
+      "skill": "nav.open_articulation",
+      "action": "N",
+      "params": {
+        "back_off_m": 0.2,
+        "which_arm": "Right"
+      },
+      "language": "Back away from the open door"
+    },
+    {
+      "skill": "arm.reset",
+      "action": "A_r",
+      "params": {},
+      "language": "Return the arm home"
+    }
+  ],
+  "subtask_groups": [
+    [
+      0,
+      1,
+      2,
+      3
+    ],
+    [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    [
+      10,
+      11,
+      12
+    ]
+  ],
+  "scene": [],
+  "success": {
+    "all": [
+      {
+        "joint_pos": {
+          "role": "@microwave",
+          "joint": "door_joint",
+          "lo": 1.0471975511965976
+        }
+      },
+      {
+        "eef_home": {
+          "radius": 0.12,
+          "arm": "both"
+        }
+      },
+      {
+        "last_subtask": {}
+      }
+    ]
+  }
+}

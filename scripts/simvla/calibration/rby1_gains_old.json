@@ -1,0 +1,35 @@
+{
+  "_comment": "rby1.py's per-arm gains before 2026-09-01 (552/139 right, 708/247 left), per joint -- the CONTROL for the gain A/B.",
+  "stiffness": {
+    "right_arm_0": 552,
+    "right_arm_1": 552,
+    "right_arm_2": 552,
+    "right_arm_3": 552,
+    "right_arm_4": 552,
+    "right_arm_5": 552,
+    "right_arm_6": 552,
+    "left_arm_0": 708,
+    "left_arm_1": 708,
+    "left_arm_2": 708,
+    "left_arm_3": 708,
+    "left_arm_4": 708,
+    "left_arm_5": 708,
+    "left_arm_6": 708
+  },
+  "damping": {
+    "right_arm_0": 139,
+    "right_arm_1": 139,
+    "right_arm_2": 139,
+    "right_arm_3": 139,
+    "right_arm_4": 139,
+    "right_arm_5": 139,
+    "right_arm_6": 139,
+    "left_arm_0": 247,
+    "left_arm_1": 247,
+    "left_arm_2": 247,
+    "left_arm_3": 247,
+    "left_arm_4": 247,
+    "left_arm_5": 247,
+    "left_arm_6": 247
+  }
+}

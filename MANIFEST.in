@@ -1,0 +1,29 @@
+include CHANGELOG.md CONTRIBUTING.md THIRD_PARTY_NOTICES.md CITATION.cff
+recursive-include docs *.md *.png *.json
+# Repository tests depend on intentionally excluded simulator/tools sources.
+# Ship only the standalone CPU-package tests, verified from an extracted sdist.
+prune tests
+include tests/test_gripper.py
+include tests/test_goal_validate_pose.py
+include tests/test_goal_validate_run_config.py
+include tests/test_object_dims.py
+include tests/test_predicate_contract.py
+include tests/test_scene_spec.py
+include tests/test_task_bind.py
+include tests/test_task_runconfig.py
+include tests/test_task_template.py
+include tests/test_task_validate.py
+include tests/test_vqa_package.py
+include tests/test_mug_to_sink_template.py
+include tests/test_robot_grasp_frames.py
+include tests/test_skill_extension_example.py
+recursive-include examples *.md *.json *.jsonl *.png *.py
+prune source
+prune scripts
+prune apps
+prune third_party
+prune .github
+prune docker
+prune tools
+prune outputs
+exclude .gitignore .gitmodules environment.yml requirements.txt isaaclab.sh isaaclab.bat

@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-06",
+  "scope": "Empty-venv public dependency installation, fresh native cuRobo build, and bounded physics/RGB startup checks. Not collection, replay, broad task reliability, or unaffiliated replication.",
+  "runtime": {
+    "python": "3.10.20",
+    "torch": "2.5.1+cu124",
+    "numpy": "1.26.4",
+    "isaacsim": "4.5.0.0",
+    "cuda_toolkit": "12.8.93",
+    "compiler": "GCC 11.4",
+    "gpu": "RTX 3090",
+    "pip_check": "passed after editable packages and again after all GPU smokes",
+    "research_environment_packages_copied": false,
+    "curobo_commit": "0a50de1ba72db304195d59d9d0b1ed269696047f",
+    "curobo_patch_sha256": "f7511a328efadfa4af66d385aaac57c059e955130f2d17941b7f95bd8ee253cd",
+    "direct_recipe_sha256": "44f58bc66c7a140df4e08bf1673e4cc8ebafd83b456687d8a400603d29cdc832",
+    "constraints_sha256": "86894c76f446ef4bc4dab2137c2a3f7701ce674b3ab40d5096dc0749dc261ce2"
+  },
+  "build_job": 2423262,
+  "source_files_sha256": {
+    "scripts/simvla/smoke_test.py": "661442fd91e4f0962a0691066e8841b78dbafe59360536f834d54a05da2d7bf6",
+    "source/isaaclab/isaaclab/simvla/utils.py": "932be5dc47d9d7dc55b6251602fb76a79e5f91a70734d7724b2ba2b8d0034620",
+    "source/isaaclab/isaaclab/devices/__init__.py": "cf67fe2734ac9f5c3218c2ae79428df22e0979f652e7152e97ffc300408dccfe",
+    "source/isaaclab_assets/isaaclab_assets/robots/aiworker_collisions.py": "0d9186fe09b1d1d25c46b591fac4e3ea14d10e2466ea8b3c650610f3324938f4"
+  },
+  "build_log_sha256": "081bc157d17d998ff6e88c68a0b409565b3bce2e4bb51d9622269f1f51d973a7",
+  "smokes": [
+    {"robot": "anubis", "task": "Isaac-Kitchen-v813-00", "job": "2424366_0", "steps": 100, "seed": 0, "passed": true, "rgb_cameras": 4, "log_sha256": "12a79c1d5a98b5fd0771a7e37b86ff330455dfd0a8dd689b9fdea91225a0d304"},
+    {"robot": "rby1", "task": "Isaac-Kitchen-v813r-00", "job": "2424366_1", "steps": 100, "seed": 0, "passed": true, "rgb_cameras": 5, "log_sha256": "170177f0e576faec8890a3af35a8ff2c90716325ba86601d5320840203efa525"},
+    {"robot": "aiworker", "task": "Isaac-Kitchen-v813a-00", "job": "2424366_2", "steps": 100, "seed": 0, "passed": true, "rgb_cameras": 5, "lift_error_m": 0.014975011348724365, "log_sha256": "f3fc1c99e189d126769d4062b6996e5b6b5e1734fcd96f51be87d523572de49f"}
+  ],
+  "fixes_required": ["Lazy Tkinter/ImageTk import for optional thumbnail UI", "Lazy Oculus/ADB transport import for optional VR teleoperation"],
+  "local_images": "outputs/clean-public-smoke-2424366/",
+  "limitations": ["Downloaded assets retain the documented external provenance and license requirements", "Camera non-constant-pixel and finite-physics checks are not semantic image-quality or manipulation-success checks", "Material-binding warnings remain in the kitchen asset", "Current working tree is not a reviewed clean release commit"]
+}

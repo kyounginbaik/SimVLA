@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-06",
+  "robot": "rby1",
+  "task": "Isaac-Kitchen-v813r-00",
+  "seed": 0,
+  "profile": "configs/collection/rby1-kitchen813-basin-approach.env",
+  "source_goal_sha256": "912313ec9433e63820dd9b8abaea85381037de7dab7c89a90eb2ed399ed57b42",
+  "route": "Complete the parking turn, then approach straight by 0.05 m; shift the basin release target by the same amount to preserve arm reach.",
+  "parking_advance_m": 0.15,
+  "final_approach_m": 0.05,
+  "eef_release_world_m": [1.88, -2.20, 1.08],
+  "collection": {
+    "job": 2437751,
+    "passed": true,
+    "episodes": 3,
+    "frames": 3873,
+    "episode_frames": [1295, 1291, 1287],
+    "cameras": 3,
+    "fps": 20,
+    "result_sha256": "48aa009387b75bd7c7e5b6f357f45c0e816d9a7b3b2741bf3e7a9196f080a0be",
+    "source_evidence_sha256": "13076415db3bcea1c2bf5c0778c45fd6716c3d2174441095ce1cb970ef27e275",
+    "collected_goal_sha256": "2f0935069434837516bf807add2d12311ceff9c12087a6f430a22edc9cfb9a31"
+  },
+  "replay_mode": "Cartesian/binary actions, initial joint-state restoration and one recorded initial control tick; no joint-motor override, base feedback or extra terminal settling",
+  "replays": [
+    {"job": 2437810, "episode_index": 0, "passed": true, "pass_number": 1, "exported_frames": 1295, "initial_prelude_ticks": 1, "simvqa_records": 18, "simvqa_images": 108, "qa_examples": 188, "terminal_mug_root_world_m": [1.822657, -2.225320, 0.746765], "source_evidence_sha256": "17567bfcbeb5c28293c8efa5d7c7e9823546e8d60fea5dc96edd0cb75c97debb", "qa_sha256": "0f706478f052583cc41e8e9e322250e781e5840e8d231bc0e39330c82fe84390"},
+    {"job": 2437811, "episode_index": 1, "passed": true, "pass_number": 1, "exported_frames": 1291, "initial_prelude_ticks": 1, "simvqa_records": 18, "simvqa_images": 108, "qa_examples": 184, "terminal_mug_root_world_m": [1.809351, -2.278142, 0.772433], "source_evidence_sha256": "596d403cf165ae7d0900340848e70cda54899f33c23fb6601855b00f11680f9d", "qa_sha256": "f2164db612f4937842605b4bd2258914c8696078e9ef27c9b2de516761b2f213"},
+    {"job": 2437812, "episode_index": 2, "passed": true, "pass_number": 1, "exported_frames": 1287, "initial_prelude_ticks": 1, "simvqa_records": 18, "simvqa_images": 108, "qa_examples": 185, "terminal_mug_root_world_m": [1.808126, -2.230805, 0.746738], "source_evidence_sha256": "cc49e4b9e57c1f0fc3a39cf996ee6d1098f46fd8bfcd7c81bf1ff7ed366947a4", "qa_sha256": "a580d8f211bd6ecdfdd93d40bab278ac213bd5e15e340c6e826bde81e876022e"}
+  ],
+  "terminal_pose_source": "Each replay HDF5 data/demo_0/terminal_state/rigid_object/mug0/root_pose, captured before automatic reset; not the post-reset success log object positions",
+  "scope": "Three accepted episodes independently replayed in fresh processes on node24 RTX 3090, public pinned runtime, local uncommitted source snapshot v23.",
+  "limitations": [
+    "Nominal targets in one kitchen and seed; not a randomized-scene success-rate benchmark.",
+    "Existing 0.18 m home tolerance is retained, not precise 2 cm homing.",
+    "Basin gate checks mug root below rim and within a conservative interior disk, not full-mesh containment or long-term settling.",
+    "Not a published release, unaffiliated replication, or collision-free-path guarantee. Earlier failed routes remain recorded separately."
+  ],
+  "review_directory": "outputs/rby1-approach-prelude-2437751"
+}

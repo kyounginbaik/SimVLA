@@ -1,0 +1,150 @@
+{
+  "task_name": "mug_to_sink_left",
+  "kitchen_num": 813,
+  "kitchen_type": "l_shaped",
+  "island_bound": [],
+  "kitchen_sub_num": 0,
+  "initial_pos_ranges": [
+    [
+      [
+        "x",
+        -0.07561493062794769,
+        0.1260248900000001
+      ],
+      [
+        "y",
+        -2.311086153853574,
+        -0.8657633663677886
+      ]
+    ],
+    [
+      [
+        "x",
+        0.6860248900000002,
+        0.9304693344444446
+      ],
+      [
+        "y",
+        -2.3116545651178417,
+        -0.9320860098414043
+      ]
+    ]
+  ],
+  "initial_rot_yaw_range": [
+    [
+      "yaw",
+      -0.17453292519943295,
+      0.17453292519943295
+    ]
+  ],
+  "room_shell": false,
+  "run_config": {
+    "obj_name": "none",
+    "obj_name_l": "mug0",
+    "target_idx": 1,
+    "sub_grasp_idx_r": 999,
+    "sub_grasp_idx_l": 2,
+    "sub_good_goal_count_r": 0,
+    "sub_good_goal_count_l": 7,
+    "export_groups": "3;5,6,7",
+    "task_language": "Grasp the mug and put it in the sink with the left arm.",
+    "task_type": "NavManipulation"
+  },
+  "version": 2,
+  "goals": [
+    [
+      {
+        "skill": "nav.to_prim",
+        "action": "N_s",
+        "params": {
+          "prim_path": "/world/mug0",
+          "which_arm": "Left",
+          "safety": 0.28
+        },
+        "goal": [
+          1.0459922552108765,
+          -0.8393579721450806,
+          1.5707963705062866
+        ],
+        "language": "Drive to the mug"
+      },
+      {
+        "skill": "arm.grasp",
+        "action": "A_l",
+        "params": {
+          "prim_path": "/world/mug0"
+        },
+        "goal": [
+          [
+            0.9676948189735413,
+            -0.33918169140815735,
+            0.9910129308700562,
+            0.015251089411461211,
+            0.6322834876236613,
+            0.7745860993313864,
+            0.0011705865242359493
+          ]
+        ],
+        "language": "Reach for the mug with the left arm"
+      },
+      {
+        "skill": "gripper.set",
+        "action": "G_l",
+        "params": {
+          "grasp": true
+        },
+        "goal": true,
+        "language": "Grasp the mug"
+      },
+      {
+        "skill": "arm.reset",
+        "action": "A_l",
+        "params": {},
+        "goal": null,
+        "language": "Lift the mug"
+      },
+      {
+        "skill": "nav.to_prim",
+        "action": "N_s",
+        "params": {
+          "prim_path": "/world/sink_cabinet",
+          "which_arm": "Left",
+          "safety": 0.15
+        },
+        "goal": [
+          1.0580248832702637,
+          -2.3120672702789307,
+          0.0
+        ],
+        "language": "Drive to the sink"
+      },
+      {
+        "skill": "arm.bowl_place",
+        "action": "A_l",
+        "params": {
+          "forward_m": 0.23,
+          "down_m": 0.05,
+          "roll_deg": -20.0
+        },
+        "goal": null,
+        "language": "Move the mug over the sink"
+      },
+      {
+        "skill": "gripper.set",
+        "action": "G_l",
+        "params": {
+          "grasp": false
+        },
+        "goal": false,
+        "language": "Release the mug"
+      },
+      {
+        "skill": "arm.reset",
+        "action": "A_l",
+        "params": {},
+        "goal": null,
+        "language": "Return the arm home"
+      }
+    ]
+  ]
+}

@@ -1,0 +1,12 @@
+# Compatibility overlay for the pinned Isaac Sim 4.5 / Isaac Lab 0.39 research stack.
+# Install after env/simulator-pip.txt. See env/README.md for the raw-only
+# Torch 2.5.1 pair versus the historical inline-export Torch 2.6.0 overlay.
+numpy==1.26.4
+protobuf==4.25.8
+docutils==0.21.2
+boto3==1.34.68
+botocore==1.34.68
+s3transfer==0.10.1
+cmake==3.31.6
+# 4.12's wheel declares NumPy >=2, which conflicts with Isaac Sim 4.5's <2 requirement.
+opencv-python-headless==4.11.0.86

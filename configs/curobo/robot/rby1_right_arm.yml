@@ -1,0 +1,74 @@
+# SimVLA RB-Y1 cuRobo configuration.
+# Robot paths share SIMVLA_RBY1M_DIR with the Isaac Lab spawn config, preventing the
+# planner and simulator from loading different models. simvla_gen.py expands the variable.
+robot_cfg:
+    kinematics:
+        use_usd_kinematics: False
+        urdf_path: "${SIMVLA_RBY1M_DIR}/models/rby1m/urdf/model.urdf"
+        asset_root_path: "${SIMVLA_RBY1M_DIR}/models/rby1m/urdf/meshes"
+        usd_path: "${SIMVLA_RBY1M_DIR}/models/rby1m/urdf/model/model.usd"
+        usd_robot_root: "${SIMVLA_RBY1M_DIR}/models/rby1m/urdf/model/model.usd"
+        isaac_usd_path: ""
+        usd_flip_joints: {}
+        usd_flip_joint_limits: []
+
+        base_link: "base_link"
+        ee_link: "ee_link1"
+        link_names: null
+
+        collision_link_names: [
+            "link_right_arm_0",
+            "link_right_arm_1",
+            "link_right_arm_2",
+            "link_right_arm_3",
+            "link_right_arm_4",
+            "link_right_arm_5",
+            "link_right_arm_6",
+            "FT_sensor_R",
+            "ee_right",
+            "ee_finger_r1",
+            "ee_finger_r2",
+        ] # List[str]
+        # Repo-relative; simvla_gen.py resolves it against SIMVLA_REPO_ROOT.
+        collision_spheres: configs/curobo/robot/spheres/rby1_spheres_right.yml
+        collision_sphere_buffer: 0.005
+        self_collision_ignore: {
+            "link_right_arm_0": ["link_right_arm_1", "link_right_arm_2"],
+            "link_right_arm_1": [ "link_right_arm_2"],
+            "link_right_arm_2": ["link_right_arm_3"],
+            "link_right_arm_3": ["link_right_arm_4"],
+            "link_right_arm_4": ["link_right_arm_5"],
+            "link_right_arm_5": ["link_right_arm_6", "FT_sensor_R"],
+            "link_right_arm_6": ["FT_sensor_R"],
+            "FT_sensor_R": ["ee_right"],
+            "ee_right": ["ee_finger_r1", "ee_finger_r2"],
+            "ee_finger_r1": ["ee_finger_r2"],
+        } # Dict[str, List[str]]
+        self_collision_buffer: {
+            "link_right_arm_0": 0.0,
+            "link_right_arm_1": 0.0,
+            "link_right_arm_2": 0.0,
+            "link_right_arm_3": 0.0,
+            "link_right_arm_4": 0.0,
+            "link_right_arm_5": 0.0,
+            "link_right_arm_6": 0.0,
+        }
+        use_global_cumul: True
+        mesh_link_names: ["link_right_arm_0", "link_right_arm_1", "link_right_arm_2", "link_right_arm_3", "link_right_arm_4", "link_right_arm_5", "link_right_arm_6", "FT_sensor_R", "ee_right", "ee_finger_r1","ee_finger_r2"]
+
+        lock_joints: {"torso_0": 0.0, "torso_1": 0.0, "torso_2": 0.0, "torso_3": 0.0, "torso_4": 0.0, "torso_5": 0.0, "gripper_finger_r1": -0.05, "gripper_finger_r2": 0.05,
+        }
+        cspace:
+            joint_names: ["torso_0","torso_1","torso_2","torso_3","torso_4","torso_5","right_arm_0", "right_arm_1", "right_arm_2", "right_arm_3", "right_arm_4", "right_arm_5", "right_arm_6","gripper_finger_r1", "gripper_finger_r2"]
+            retract_config: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+            1.0, 0.0, 0.0, -2.3, 0.0, 0.6, 0.0,]  # == RBY1_CFG.init_state; MolmoBot's
+            # RBY1Config.init_qpos. warmup() plans FROM this pose and gives up silently if
+            # it collides -- which is how the IK CUDA graph went uncaptured and every
+            # in-loop plan then died under inference_mode. arm_5=+0.6 put the hand at
+            # z=0.928, at or below the ~0.95 m counter; -0.5 puts it at z=1.347, clear.
+            null_space_weight: [20.0, 50.0, 50.0, 50.0, 10.0, 5.0,
+            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,]
+            cspace_distance_weight: [20.0, 50.0, 50.0, 50.0, 10.0,5.0,
+            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+            max_jerk: 500.0
+            max_acceleration: 15.0

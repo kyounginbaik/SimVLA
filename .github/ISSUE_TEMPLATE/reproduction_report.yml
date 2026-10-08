@@ -1,0 +1,62 @@
+name: Reproduction or extension report
+description: Share a SimVLA reproduction, new task or skill, robot integration, or measured result.
+title: "[Result] "
+labels: [reproduction]
+body:
+  - type: dropdown
+    id: contribution
+    attributes:
+      label: What did you run?
+      options:
+        - CPU task / skill workflow
+        - Kitchen or goal generation
+        - Demonstration or VQA collection
+        - New task or skill
+        - New robot integration
+        - Policy evaluation
+        - Paper reproduction
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: SimVLA version
+      description: Give a release, commit hash, and any local patch or fork URL.
+      placeholder: v1.0.0 / abc1234
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Command and configuration
+      description: Include a minimal command plus task template, goal, and configuration links. Remove credentials and private paths.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Runtime and assets
+      description: Include `simvla doctor`, GPU/runtime versions when applicable, and asset identifiers, revisions, scales, or checksums.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: protocol
+    attributes:
+      label: Protocol and results
+      description: State seeds, trials, limits, success predicate, per-trial outcomes, and aggregate numerator/denominator. Separate aborted or invalid trials.
+    validations:
+      required: true
+  - type: textarea
+    id: artifacts
+    attributes:
+      label: Reproducibility artifacts
+      description: Link sanitized logs, configs, data, videos, checkpoints, or normalization statistics that you can share.
+  - type: textarea
+    id: limits
+    attributes:
+      label: Limitations or differences
+      description: Note deviations from the paper or release, missing inputs, failures, and conclusions the result does not support.
+    validations:
+      required: true

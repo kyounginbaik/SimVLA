@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-06",
+  "runtime": "Fresh public Python 3.10.20 / Isaac Sim 4.5.0 / NumPy 1.26.4 runtime plus pinned xatlas 0.0.11",
+  "generation_job": 2434441,
+  "generation": {"kitchen_id": 99106, "layout": "l_shaped", "rotations": 12, "template_written": true, "workflow_exit_code": 0},
+  "failed_predecessor": {"job": 2434372, "cause": "Missing xatlas during geometry unwrapping", "fix": "Added xatlas to simulator-raw.in under its existing 0.0.11 constraint; pip check passed"},
+  "generated_scene_smoke": {
+    "job": 2434881,
+    "goal_authoring_exit_code": 0,
+    "robots": ["anubis", "rby1", "aiworker"],
+    "steps_per_robot": 100,
+    "all_exit_codes": 0,
+    "checks": ["finite physics", "front RGB", "left wrist RGB", "right wrist RGB"],
+    "scope": "Kitchen 99106 rotation 00, not a successful manipulation episode",
+    "cold_start_note": "First new-material render took approximately 14 minutes; subsequent robot runs were faster."
+  },
+  "seed_check": {
+    "job": 2435249,
+    "kitchen_id": 99107,
+    "seed": 42,
+    "isolated_runs": 2,
+    "rotations_per_run": 12,
+    "matching_fields": ["kitchen_num", "seed", "room_shell_seed", "material_picks", "mesh_sha256", "mug_rest_z", "mug_aabb_z", "mug_aabb_centre_z", "success_lo", "template"],
+    "passed": true,
+    "facts_a_sha256": "9271d66baad6cbfaef1a741e6cb42e41b84b30cf3aa074935f5743dbaea52b41",
+    "facts_b_sha256": "f608f601288af7660d86213dfd4e2d64fa9f6dd526519036b5e064ae94278310"
+  },
+  "limitations": [
+    "Generation and matching recorded geometry measurements/material selections, not byte-identical USDs or a successful manipulation episode.",
+    "The example mug is wider than Anubis's nominal gripper opening.",
+    "MDL appearance still depends on NVIDIA's external material server/cache; the material server is not mirrored by the three-robot bundle.",
+    "Uncommitted local source snapshots, not a published clean release or unaffiliated reproduction."
+  ],
+  "local_review_directories": ["outputs/clean-public-generation-2434441", "outputs/clean-public-generation-seedcheck-2435249"]
+}

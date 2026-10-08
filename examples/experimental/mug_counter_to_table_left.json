@@ -1,0 +1,85 @@
+{
+  "name": "mug_counter_to_table_left",
+  "language": "Pick up the mug from the counter with the left hand and put it on the table.",
+  "roles": [
+    {
+      "name": "target",
+      "object_type": "mug",
+      "articulation_with": null,
+      "handle_of": null
+    }
+  ],
+  "steps": [
+    {
+      "skill": "nav.to_prim",
+      "action": "N_s",
+      "params": {"prim_path": "@target", "which_arm": "Left", "safety": 0.28},
+      "language": "Drive to the mug"
+    },
+    {
+      "skill": "arm.grasp",
+      "action": "A_l",
+      "params": {"prim_path": "@target"},
+      "language": "Reach for the mug with the left hand"
+    },
+    {
+      "skill": "gripper.set",
+      "action": "G_l",
+      "params": {"grasp": true},
+      "language": "Grasp the mug"
+    },
+    {
+      "skill": "arm.reset",
+      "action": "A_l",
+      "params": {},
+      "language": "Lift the mug and return to the travel pose"
+    },
+    {
+      "skill": "nav.to_prim",
+      "action": "N_s",
+      "params": {"prim_path": "/world/table", "which_arm": "Left", "safety": 0.12},
+      "language": "Drive to the table"
+    },
+    {
+      "skill": "arm.place",
+      "action": "A_l",
+      "params": {
+        "prim_path": "/world/table/top",
+        "clearance_m": 0.005,
+        "eef_above_base_m": 0.055
+      },
+      "language": "Lower the mug above the table surface"
+    },
+    {
+      "skill": "gripper.set",
+      "action": "G_l",
+      "params": {"grasp": false},
+      "language": "Release the mug onto the table"
+    },
+    {
+      "skill": "arm.reset",
+      "action": "A_l",
+      "params": {},
+      "language": "Return the left arm home"
+    },
+    {
+      "skill": "arm.reset",
+      "action": "A_l",
+      "params": {},
+      "language": "Finish returning the left arm home after release"
+    }
+  ],
+  "subtask_groups": [[0, 1, 2, 3], [4, 5, 6], [7, 8]],
+  "scene": [],
+  "success": {
+    "all": [
+      {"obj_near_prim": {"role": "@target", "target_role": "table", "radius": 0.52, "xy_only": true}},
+      {"obj_z": {"role": "@target", "lo": 0.82, "hi": 0.97}},
+      {"gripper_open": {"arm": "left", "gap": 0.079}},
+      {"not": {"obj_near_eef": {"role": "@target", "arm": "left", "radius": 0.15}}},
+      {"eef_home": {"arm": "left", "radius": 0.12}},
+      {"last_subtask": {}}
+    ]
+  },
+  "retry": null
+}

@@ -1,0 +1,33 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.ruff_cache/
+build/
+dist/
+# Generated demonstrations, review videos, SimVQA captures, and run logs.
+/outputs/
+/logs/
+.env
+.aws/
+/datasets/
+/checkpoints/
+/videos_eval/
+/demo_replay/
+/simvqa/
+third_party/curobo/
+third_party/openpi/
+source/isaaclab_assets/data/
+
+# Downloaded simulator/robot bundle (see docs/installation.md).
+/external/simvla-assets/
+/objaverse_cache/
+/objaverse_chairs/
+/objaverse_tables/
+
+/videos/
+/simvla-public-lerobot-*.log
+/simvla-public-goals-*.log
+/simvla-raw-smoke-*.log
+/simvla-*.log

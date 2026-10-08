@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-06",
+  "robot": "anubis",
+  "task": "Isaac-Kitchen-v813-00",
+  "collection_job": 2399882,
+  "replay_job": 2400028,
+  "accepted_episodes": 1,
+  "exported_frames": 1412,
+  "camera_streams": 3,
+  "cartesian_replay_pass": 1,
+  "cartesian_replay_success": true,
+  "release_quality_dataset": false,
+  "limitation": "Post-export audit found all action.joint frames alias the final joint-target buffer. Cartesian replay succeeds, but this artifact must not be advertised as valid joint-action data. Snapshot fix requires recollection.",
+  "settings": {
+    "seed": 0,
+    "physics_substeps": 6,
+    "control_fps": 20,
+    "candidate_index_right": 10,
+    "fixed_object": true,
+    "nav_final_yaw_rad": 0.02,
+    "drawer_lateral_m": 0.17,
+    "drawer_backoff_m": 0.05,
+    "swap_drawer_jaws": true
+  },
+  "sha256": {
+    "collection_log": "1bde9027acf8e25423785b3e18272f9beda3143179a26abbe6081fc397fdadaf",
+    "replay_log": "50c7900efb98d2984408f7f59002bd22a27fc1ac2890a72d29e7a9a0ce35df98",
+    "collection_result": "07bc7d966ead605d3add13e9be7d218defa196b11858871ab2987053ea5d9a20"
+  },
+  "scope": "One local physical collection and Cartesian replay, not independent clean-checkout or all-robot reproduction. Source checkout was dirty."
+}

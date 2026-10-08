@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-06",
+  "robot": "aiworker",
+  "task": "Isaac-Kitchen-v813a-00",
+  "seed": 0,
+  "runtime": "Fresh public Python 3.10 / Isaac Sim 4.5 / Torch 2.5.1+cu124 / NumPy 1.26.4",
+  "corrected_home_collection": {
+    "job": 2432349,
+    "passed": true,
+    "episodes": 1,
+    "frames": 1914,
+    "cameras": 3,
+    "fps": 20,
+    "collection_result_sha256": "08cc6b6d8deac47463b4f8f4bb5e9958e40fac10a902df1a3aff99c21e9d53f7",
+    "terminal_mug_target_distance_m": 0.071,
+    "terminal_left_home_error_m": 0.049,
+    "home_tolerance_m": 0.05,
+    "carry_mode": "Extended carry, not loaded home"
+  },
+  "replay_trials": [
+    {"job": 2434391, "mode": "Recorded non-gripper joints plus adaptive contact gripper", "passed": false, "cause": "Mug lost during lift"},
+    {"job": 2435309, "mode": "All recorded joint motor targets", "passed": false, "cause": "Mug lost during lift"},
+    {"job": 2435668, "mode": "All recorded joint motor targets plus measured initial robot joint state", "passed": false, "cause": "Mug lost during lift"}
+  ],
+  "physics_rate_collection": {
+    "job": 2436772,
+    "export_passed": true,
+    "episodes": 1,
+    "frames": 1896,
+    "cameras": 3,
+    "control_fps": 20,
+    "motor_substeps_per_frame": 6,
+    "collection_result_sha256": "564fca6271188e07b50b34023c55a85dd131c3c8ca341ff4df9a59441f47ea94",
+    "carry_mode": "Extended carry, not loaded home",
+    "replay_trials": [
+      {"job": 2436899, "mode": "Physics-rate motor targets", "passed": false, "cause": "Mug lost; final mug position [1.001, -0.395, 0.927]"},
+      {"job": 2436900, "mode": "20-Hz motor targets control", "passed": false, "cause": "Mug not delivered; no physical success"},
+      {"job": 2436966, "mode": "Physics-rate motor targets plus initial joint-state restoration", "passed": false, "cause": "Mug fell during transport; failed termination at frame 1468"},
+      {"job": 2436970, "mode": "Physics-rate non-gripper motor targets, adaptive contact gripper, initial joint-state restoration", "passed": false, "cause": "Retained mug through transport to legacy proximity target, but no terminal success before frame 1896", "terminal_mug_position_m": [1.578, -2.256, 0.927], "review_directory": "outputs/clean-public-aiworker-2436772/replay-hybrid-failure"},
+      {"job": 2437094, "mode": "Same hybrid mode plus bounded terminal motor hold; base feedback retained", "passed": true, "pass_number": 1, "replay_frames": 1914, "terminal_hold_budget_steps": 100, "terminal_hold_used_steps": 18, "extra_seconds": 0.9, "original_timing_replay_passed": false, "simvqa_records": 16, "simvqa_images": 96, "qa_examples": 164, "terminal_mug_position_m": [1.578, -2.256, 0.927], "replay_status_sha256": "124fd50cb6d223cdd18fedc166d00af7254199b6e6dedf9be82f71db87af6d01", "simvqa_result_sha256": "fa64f8112e33c147d4d408251e54d9a34bddd120cfcace5a28ba99a9eda5c3ba", "profile": "configs/collection/aiworker-kitchen813-substeps.env", "review_directory": "outputs/clean-public-aiworker-2436772/replay-hybrid-settle"}
+    ],
+    "repeat_replay": {
+      "job": 2437352,
+      "passed": true,
+      "pass_number": 1,
+      "replay_frames": 1914,
+      "terminal_hold_used_steps": 18,
+      "simvqa_records": 16,
+      "simvqa_images": 96,
+      "qa_examples": 164,
+      "scope": "Same saved episode and hybrid/settling mode; not a new collection or loaded-home validation",
+      "source_evidence_sha256": "73fb7315e80662aef43d6e381b5539a6d169b6ec637b56ca4a66b521b7a399ed",
+      "qa_sha256": "21a7e512f8f3a60fd3784a75e103e7c14700ddc93476f70f12756be3d701ee39",
+      "review_directory": "outputs/clean-public-aiworker-2436772/replay-hybrid-repeat"
+    },
+    "integration_followup": "Earlier replay starts 2436888/2436889 exposed motor targets shadowing the SimVQA target map; fixed with dispatch regression coverage"
+  },
+  "loaded_home_trials": [
+    {"job": 2432749, "wrist_stiffness": 1000, "payload_planning_proxy": true, "home_and_first_aisle_motion_retained_mug": true, "passed": false, "cause": "Mug lost at counter edge during sink navigation, frame 3041"},
+    {"job": 2435195, "wrist_stiffness": 1000, "payload_planning_proxy": true, "raised_clearance_after_home": true, "home_and_sink_transport_retained_mug": true, "passed": false, "cause": "Old relative placement offset released beside basin; terminal mug position [1.8328, -1.9325, 0.9011] misses the unchanged 0.12 m target gate"},
+    {"job": 2436748, "passed": false, "cause": "Duplicate relative-placement trial deliberately interrupted before completion after 2435195 exposed the placement error"},
+    {"job": 2436773, "passed": false, "cause": "Mug lost on the low home path before testing absolute sink placement; interrupted after loss"},
+    {"job": 2436851, "passed": false, "live_payload_spheres_verified": true, "second_attempt_home_and_aisle_retained_mug": true, "cause": "First attempt lost mug at home; second retained it through home/aisle but reached the 4800-frame run limit before full delivery", "collection_result_sha256": "f8e6f88eebe521e568fd7f08ed6d6769739a78c5b006e4e2eed2a053f7c46efb"},
+    {"job": 2436991, "passed": true, "episodes": 1, "frames": 3526, "cameras": 3, "fps": 20, "motor_substeps_per_frame": 6, "preceding_failed_attempts": 1, "actual_loaded_home_and_clearance_route": true, "repaired_basin_gate": true, "terminal_mug_root_world_m": [1.788, -2.251, 0.7468], "replay_validated": false, "source_goal_sha256": "d7151f6b660c856d8a2accb4bc5f4bb069b65908d53662ad9fe092c5910d7d6c", "source_goal_regenerated_byte_identically": true, "collection_result_sha256": "757d04036c84a4b79afa935a91572b3212b2831aa32239def02835174dd7dee6", "source_evidence_sha256": "e35815440c2e83d8844d1728d66dcd4970e281fa9e5805373ff57403b6ef4878", "profile": "configs/collection/aiworker-kitchen813-loaded-basin.env", "review_directory": "outputs/aiworker-loaded-basin-2436991/collection"}
+  ],
+  "loaded_home_replay_trials": [
+    {"job": 2437146, "collection_job": 2436991, "passed": false, "mode": "Physics-rate non-gripper motors, adaptive gripper, initial joint-state restoration, bounded base feedback and up to 100 terminal hold steps", "cause": "Lost mug during loaded-home motion; final mug position [0.796, -0.330, 0.901] on counter, not basin", "completed_control_steps": 3626, "review_directory": "outputs/aiworker-loaded-basin-2436991/replay-initial-state-failure"},
+    {"job": 2437202, "collection_job": 2436991, "passed": false, "mode": "Same hybrid control with initial joint-state restoration disabled", "cause": "Retained mug through loaded home but lost it during the first aisle turn; object-height failure at frame 2254", "completed_control_steps": 2254, "review_directory": "outputs/aiworker-loaded-basin-2436991/replay-no-initial-state-failure"}
+  ],
+  "initial_snapshot_followup": {
+    "finding": "A manual retry inside an iteration could execute an action before the next loop-top initial snapshot",
+    "fix": "Capture initial state and object poses at physics episode_length_buf==0, immediately before env.step and after all retry branches",
+    "old_datasets_modified": false,
+    "cpu_regression_passed": true,
+    "fresh_gpu_collection_validation": "In progress"
+  },
+  "payload_order_fix": {
+    "cause": "cuRobo update_locked_joints rebuilds kinematics and copies configured link_spheres, erasing earlier dynamic payload attachment",
+    "fix": "Refresh measured locked joints first, then attach the live mug spheres; require equality with planning kinematics before continuing",
+    "cpu_regression_passed": true,
+    "physical_validation": "Live sphere equality verified in 2436851 and 2436991; loaded-home/basin collection passed in 2436991, independent replay still separate",
+    "prior_trial_limitation": "Enabled proxy flag and log message alone did not prove the collision spheres survived until planning"
+  },
+  "limitations": [
+    "Fresh extended-carry collection/replay/SimVQA passed only with the documented hybrid replay and 0.9 seconds extra settling.",
+    "The older successful AI Worker reference predates the corrected 5 cm home predicate.",
+    "Loaded-home transport improvements are experimental; placement and independent replay are separate required checks.",
+    "Physics-rate motor recording alone did not reproduce success; the bounded hybrid-and-settling result is not action-only or original-timing replay.",
+    "The legacy sink predicate is proximity, not basin containment; see sink-cavity-probe-2026-10-06.json.",
+    "Local uncommitted source snapshots, not a published release or unaffiliated reproduction."
+  ],
+  "local_review_directories": ["outputs/clean-public-aiworker-2432349", "outputs/aiworker-payload-home-2432749", "outputs/aiworker-home-clearance-2435195", "outputs/clean-public-aiworker-2436772", "outputs/aiworker-payload-order-fixed-2436851"]
+}

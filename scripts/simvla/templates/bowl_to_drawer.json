@@ -1,0 +1,186 @@
+{
+    "name": "bowl_to_drawer",
+    "language": "Put bowl inside drawer.",
+    "roles": [
+        {
+            "name": "target",
+            "object_type": "bowl",
+            "articulation_with": null,
+            "handle_of": null
+        },
+        {
+            "name": "container",
+            "object_type": null,
+            "articulation_with": [
+                "drawer"
+            ],
+            "handle_of": null
+        },
+        {
+            "name": "container_handle",
+            "object_type": null,
+            "articulation_with": null,
+            "handle_of": "container"
+        }
+    ],
+    "steps": [
+        {
+            "skill": "nav.to_prim",
+            "action": "N_s",
+            "params": {
+                "prim_path": "@target",
+                "which_arm": "Right"
+            },
+            "language": "Move to bowl"
+        },
+        {
+            "skill": "arm.grasp",
+            "action": "A_r",
+            "params": {
+                "prim_path": "@target"
+            },
+            "language": "Right arm to bowl"
+        },
+        {
+            "skill": "gripper.set",
+            "action": "G_r",
+            "params": {
+                "grasp": true
+            },
+            "language": "Grasp the bowl"
+        },
+        {
+            "skill": "arm.reset",
+            "action": "A_r",
+            "params": {},
+            "language": "Reset to original position"
+        },
+        {
+            "skill": "arm.handle_pregrasp",
+            "action": "A_l",
+            "params": {
+                "prim_path": "@container_handle"
+            },
+            "language": "Left Arm to pre-grasp pull handle"
+        },
+        {
+            "skill": "arm.handle_grasp",
+            "action": "A_l",
+            "params": {
+                "prim_path": "@container_handle"
+            },
+            "language": "Left Arm to grasp pull handle"
+        },
+        {
+            "skill": "gripper.set",
+            "action": "G_l",
+            "params": {
+                "grasp": true
+            },
+            "language": "Left Gripper Grasp"
+        },
+        {
+            "skill": "nav.open_articulation",
+            "action": "N",
+            "params": {
+                "back_off_m": 0.25
+            },
+            "language": "Move back to open drawer"
+        },
+        {
+            "skill": "arm.bowl_place",
+            "action": "A_r",
+            "params": {},
+            "language": "Move Right arm to place in drawer"
+        },
+        {
+            "skill": "gripper.set",
+            "action": "G_r",
+            "params": {
+                "grasp": false
+            },
+            "language": "Release"
+        },
+        {
+            "skill": "arm.reset",
+            "action": "A_r",
+            "params": {},
+            "language": "Reset to original position"
+        },
+        {
+            "skill": "nav.close_articulation",
+            "action": "N",
+            "params": {},
+            "language": "Move front to close drawer"
+        }
+    ],
+    "subtask_groups": [
+        [
+            4,
+            5,
+            6,
+            7
+        ],
+        [
+            8,
+            9,
+            10
+        ],
+        [
+            11
+        ]
+    ],
+    "scene": [
+        {
+            "name": "bowl0",
+            "object_type": "bowl",
+            "size": {
+                "center": 1.0,
+                "spread": 0.05
+            },
+            "placement": "dishwasher",
+            "lift": {
+                "center": 0.775,
+                "spread": 0.025
+            }
+        },
+        {
+            "name": "mug0",
+            "object_type": "mug",
+            "size": {
+                "center": 1.0,
+                "spread": 0.05
+            },
+            "placement": "island",
+            "lift": null
+        }
+    ],
+    "success": {
+        "all": [
+            {
+                "obj_z": {
+                    "role": "@target",
+                    "lo": 0.6,
+                    "hi": 0.8
+                }
+            },
+            {
+                "eef_home": {
+                    "arm": "right",
+                    "radius": 0.18
+                }
+            },
+            {
+                "joint_pos": {
+                    "role": "@container",
+                    "joint": "corpus_to_drawer_0_0",
+                    "hi": 0.03
+                }
+            },
+            {
+                "last_subtask": {}
+            }
+        ]
+    },
+    "retry": null
+}

@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-07",
+  "robot": "aiworker",
+  "task": "Isaac-Kitchen-v813a-00",
+  "seed": 0,
+  "profile": "configs/collection/aiworker-kitchen813-loaded-physics12.env",
+  "source_goal_sha256": "d7151f6b660c856d8a2accb4bc5f4bb069b65908d53662ad9fe092c5910d7d6c",
+  "collected_goal_sha256": "5fe6ae096881e5b4453bd89fc197f617ff217fece4c48fdf4f1cc747f940e736",
+  "settings": {
+    "physics_substeps": 12,
+    "control_fps": 20,
+    "gripper_balance_step_fraction_per_substep": 0.0025,
+    "gripper_balance_rate_per_second": 0.6,
+    "fixed_object": false,
+    "native_bodex_candidate": 97,
+    "approach": "Native orientation, cuRobo direct approach, 51-tick midpoint pause, left-arm actual loaded home, aisle waypoint, clearance raise, repaired-basin release, arm home"
+  },
+  "collection": {
+    "job": 2437904,
+    "passed": true,
+    "accepted_episodes": 1,
+    "exported_frames": 3592,
+    "initial_prelude_ticks": 1,
+    "fps": 20,
+    "camera_keys": ["front", "wrist_left", "wrist_right"],
+    "export_evidence_sha256": "ea98753bcc47ac99cead565b758a819781caa3086569d6841ecf94ce735d4818",
+    "source_evidence_sha256": "28711a6042d10ddd1be6cb0be87a7e8ff1be582ccf24d110e562a318d9e4d145",
+    "dataset_content_sha256": "00f8d123b16cdd30d9daf5bfa6afc98a37d7118506dd16ab11152f2027bc9df8",
+    "dataset_info_sha256": "f4af6ac8813f08fbce4271628986315a10c3091c376d253dced37d9101f45360",
+    "physical_terminal": {
+      "collector_success": true,
+      "mug_root_world_m": [1.794, -2.294, 0.772],
+      "mug_root_inside_repaired_basin_gate": true,
+      "left_eef_home_error_m": 0.047,
+      "right_eef_home_error_m": 0.0
+    }
+  },
+  "replay": {
+    "job": 2437908,
+    "passed": true,
+    "pass_number": 1,
+    "replay_exit_code": 0,
+    "terminal_timestep": 3592,
+    "extra_terminal_hold_steps_used": 0,
+    "mode": "Recorded non-gripper joint motor targets, adaptive contact gripper, base-pose feedback, initial joint restoration, one recorded initial control tick, recorded physics-rate joint substeps",
+    "terminal_mug_root_world_m": [1.801, -2.267, 0.747],
+    "left_eef_home_error_m": 0.047,
+    "right_eef_home_error_m": 0.0,
+    "source_evidence_sha256": "416ae1e0fea5f2f544dbc6fe07bab189ac1058f7f8a70c35bf1e4c74dfbeef40",
+    "status_sha256": "124fd50cb6d223cdd18fedc166d00af7254199b6e6dedf9be82f71db87af6d01"
+  },
+  "simvqa": {
+    "passed": true,
+    "records": 20,
+    "images": 120,
+    "qa_examples": 205,
+    "portable_qa_paths_verified": true,
+    "result_sha256": "a1015951f5ceca15a0aa3dd6a82a347fd6bbcdaf064e9c30c6640fcdea985398",
+    "qa_sha256": "e2bd2e4dd78cdc2bd62da474d421cc1aa64e80995ce19082ddfecfe610be1c2d"
+  },
+  "scope": "One locally reproduced kitchen-813/seed-0 AI Worker episode in the pinned public runtime. This establishes a bounded collection/export/replay/SimVQA chain for this explicit physics-12 profile; it is not a multi-seed reliability benchmark, arbitrary-scene guarantee, original six-substep reference, external replication, or bitwise physics determinism.",
+  "limitations": [
+    "The basin predicate checks the mug root below the rim and inside a conservative XY disk; it does not check full-mesh containment or long-term settling.",
+    "Replay uses recorded joint motors for non-gripper joints, adaptive contact-controlled gripper behavior, bounded base feedback, and a recorded prelude; it is not Cartesian-only action replay.",
+    "SIMVLA_REPLAY_SETTLE_STEPS was configured to 100, but replay finished with zero extra hold steps used.",
+    "The 24-substep comparison was stopped before completing within its allocation and is not a pass or physical failure result."
+  ],
+  "review_directory": "outputs/aiworker-loaded-home-physics12-2437904"
+}

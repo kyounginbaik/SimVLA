@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-06",
+  "scope": "Local fresh public-runtime tests on node24 RTX 3090; kitchen 813, seed 0, uncommitted source snapshots. Not external replication or arbitrary-scene reliability.",
+  "recording_fix": "Capture initial state before the first physical action, preserve the otherwise trimmed first action as an explicit replay prelude, and initialize the shared GPU predicate goal index before executing it.",
+  "integration_failures": {
+    "jobs": [2437667, 2437668],
+    "cause": "CPU shared goal index during the new GPU prelude",
+    "fixed_in_source_snapshot": "v22",
+    "regression": "tests/test_replay_initial_step.py checks predicate goal initialization before env.step"
+  },
+  "anubis": {
+    "collection_job": 2437663,
+    "replay_job": 2437741,
+    "passed": true,
+    "exported_frames": 1418,
+    "initial_prelude_ticks": 1,
+    "extra_terminal_ticks": 0,
+    "mode": "Recorded joint motors, initial joint restoration and bounded base feedback",
+    "simvqa_records": 26,
+    "simvqa_images": 156,
+    "qa_examples": 273,
+    "collection_result_sha256": "e7e9b9cd9e731dbcc592ed90c60613ce0cf19ed3aa8594aa022894875b509033",
+    "replay_source_sha256": "02869ac041fa9bacafad9fefb7ef1f5dc4a8b6cca759853164db03ef85d034bd",
+    "qa_sha256": "3348ab2a0938dff8f34fd1d6fc0eb19825a5d5c178f8c1317fef0f89b89a7361",
+    "review_directory": "outputs/anubis-prelude-2437663"
+  },
+  "aiworker": {
+    "collection_job": 2437660,
+    "collection_passed": true,
+    "exported_frames": 1954,
+    "replay_job": 2437740,
+    "replay_passed": false,
+    "initial_prelude_ticks": 1,
+    "extra_terminal_ticks": 100,
+    "mode": "Physics-rate non-gripper motor targets, adaptive grip, initial joint restoration and bounded base feedback",
+    "finding": "Approach tracked closely before contact, but the mug remained on the counter; terminal home passed and object delivery failed. Correcting the initial boundary does not establish physical replay reliability.",
+    "terminal_mug_root_world_m": [1.007, -0.363, 0.901],
+    "full_motor_comparisons": [
+      {"job": 2437808, "passed": false, "adaptive_gripper": false, "base_feedback": true, "replay_ticks": 2054, "finding": "Mug remained at pickup; replaying recorded finger targets did not resolve loss of grasp."},
+      {"job": 2437809, "passed": false, "adaptive_gripper": false, "base_feedback": false, "replay_ticks": 2054, "finding": "Mug remained at pickup; removing base feedback also failed."}
+    ],
+    "review_directory": "outputs/aiworker-reference-prelude-2437660",
+    "loaded_home_followups": [
+      {"job": 2437210, "passed": false, "validated_episodes": 0, "frame_budget": 8000, "finding": "Early attempts lost the mug during loaded home; the last attempt reached transport but exhausted the total collection budget."},
+      {"job": 2437649, "passed": false, "validated_episodes": 0, "frame_budget": 6500, "finding": "Nominal targets and recorded prelude did not produce an accepted loaded-home episode within the budget.", "review_directory": "outputs/aiworker-loaded-prelude-failure-2437649"},
+      {"job": 2437704, "passed": false, "validated_episodes": 0, "frame_budget": 8000, "contact_depth_m": 0.010, "finding": "Reduced distal contact-point offset by 5 mm. A later attempt retained through actual home and aisle motion but dropped during the clearance raise. No accepted episode within budget.", "review_directory": "outputs/aiworker-experiment-2437704"},
+      {"job": 2437831, "passed": false, "validated_episodes": 0, "native_bodex_candidate": 1, "finding": "Three repeated collision-aware IK failures at the native grasp. Deliberately interrupted; no Cartesian fallback or forced wrist rotation.", "review_directory": "outputs/aiworker-experiment-2437831"},
+      {"job": 2437832, "passed": false, "validated_episodes": 0, "native_bodex_candidate": 21, "finding": "Three repeated collision-aware IK failures at the native grasp. Deliberately interrupted; no Cartesian fallback or forced wrist rotation.", "review_directory": "outputs/aiworker-experiment-2437832"}
+    ]
+  },
+  "rby1_nominal_batch": {
+    "collection_job": 2437355,
+    "collection_passed": true,
+    "validated_episodes": 3,
+    "exported_frames": 3563,
+    "episode_frames": [1215, 1189, 1159],
+    "mode": "Nominal targets; independent Cartesian/binary action-only replay without initial joint restoration, motor override, base feedback or prelude",
+    "replays": [
+      {"job": 2437655, "episode_index": 0, "passed": false, "finding": "Mug below rim but outside the unchanged interior disk", "terminal_mug_root_world_m": [1.736, -2.273, 0.772]},
+      {"job": 2437656, "episode_index": 1, "passed": false, "finding": "Mug remained near the pickup counter", "terminal_mug_root_world_m": [0.981, -0.317, 0.910]},
+      {"job": 2437657, "episode_index": 2, "passed": true, "simvqa_records": 16, "simvqa_images": 96, "qa_examples": 164}
+    ],
+    "limitation": "Three accepted exports are not three reproduced episodes, and collection included rejected attempts.",
+    "review_directory": "outputs/rby1-nominal-bulk-2437355"
+  }
+}
