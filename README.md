@@ -113,14 +113,15 @@ If you use SimVLA in your research, please cite:
 
 ```bibtex
 @misc{baik2026simvla,
-  title  = {SimVLA: Zero-Shot Sim-to-Real VLA Learning for Mobile Manipulation},
-  author = {Baik, Kyoungin and Lee, Youngwoon},
-  year   = {2026},
-  url    = {https://kyounginbaik.github.io/simvla/}
+  title={SimVLA: Zero-Shot Sim-to-Real VLA Learning for Mobile Manipulation},
+  author={Kyoungin Baik and Youngwoon Lee},
+  year={2026},
+  eprint={2610.11248},
+  archivePrefix={arXiv},
+  primaryClass={cs.RO},
+  url={https://arxiv.org/abs/2610.11248},
 }
 ```
-
-The citation is provisional until an arXiv identifier or DOI is public. See [CITATION.cff](CITATION.cff).
 
 ## License
 
