@@ -1,4 +1,5 @@
 """Discover generated task names without importing simulator configurations."""
+from pathlib import Path
 import re
 
 
@@ -17,3 +18,21 @@ def register_kitchens(gym, directory, package):
                 disable_env_checker=True,
                 kwargs={"env_cfg_entry_point": f"{package}.{path.stem}:{classes[robot]}"},
             )
+
+
+def register_output_dir(gym, package_path, package, environ):
+    """Register configs that goal emission wrote to SIMVLA_ENV_CFG_OUTPUT_DIR.
+
+    Appending the directory to the package ``__path__`` lets the entry point
+    ``<package>.kitchen_N_SS`` import from there (relative ``.mdp`` imports still
+    resolve inside the package), so generated configs never have to be written
+    into the source checkout.
+    """
+    raw = environ.get("SIMVLA_ENV_CFG_OUTPUT_DIR")
+    if not raw:
+        return
+    directory = Path(raw).expanduser().resolve()
+    if not directory.is_dir() or any(Path(p).resolve() == directory for p in package_path):
+        return
+    package_path.append(str(directory))
+    register_kitchens(gym, directory, package)

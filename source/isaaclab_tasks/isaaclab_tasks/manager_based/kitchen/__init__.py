@@ -1,11 +1,13 @@
 """Register bundled and newly authored kitchen configurations lazily."""
+import os
 from pathlib import Path
 
 import gymnasium as gym
 
-from .registration import register_kitchens
+from .registration import register_kitchens, register_output_dir
 
 register_kitchens(gym, Path(__file__).parent, __name__)
+register_output_dir(gym, __path__, __name__, os.environ)
 
 gym.register(
     id="Isaac-Kitchen-v1407r-00",

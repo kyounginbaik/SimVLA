@@ -30,6 +30,9 @@ if not args.mesh.is_file():
 if args.output.exists():
     parser.error('--output already exists; use a new directory')
 assets.mkdir(parents=True, exist_ok=True)
+sys.path.insert(0, str(Path(__file__).parent))
+from generated_kitchen_files import kitchen_outputs, remove_new_outputs  # noqa: E402
+preexisting = kitchen_outputs(assets, args.kitchen_id)
 os.environ.update(MUGK_NUM=str(args.kitchen_id), MUGK_TYPE=args.layout,
                   MUGK_SEED=str(seed),
                   MUGK_MESH=os.path.abspath(args.mesh),
@@ -40,6 +43,9 @@ try:
 except BaseException:
     print(traceback.format_exc(), flush=True)
     exit_code = 1
+    # Leave the kitchen ID retryable: drop the USDs/facts this run exported before failing.
+    for _path in remove_new_outputs(assets, args.kitchen_id, preexisting):
+        print(f'[generate] removed partial output {_path}', flush=True)
 finally:
     from workflow_status import record_status
     record_status(exit_code)

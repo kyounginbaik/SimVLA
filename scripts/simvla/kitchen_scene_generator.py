@@ -343,7 +343,8 @@ def commit_kitchen(kitchen, picks, kitchen_num, kitchen_data, material_overrides
         # generation are separate runs and ROOM_SHELL may differ between them.
         kitchen_data["room_shell"] = True
 
-    stage = kitchen.export(file_type="usd")
+    # folder= keeps scene_synthesizer's textures/ beside the kitchen USD instead of the cwd.
+    stage = kitchen.export(file_type="usd", folder=os.path.dirname(usd_filename))
     # material_overrides is the author's per-piece choices, as {prim regex -> group}. It reaches
     # the stage only here, because a material is not geometry: nothing between build_kitchen and
     # this line can carry it, and the preview cannot show it either (the preview is a trimesh
@@ -391,7 +392,7 @@ def resolve_grasp_thumbs(objects, kitchen_data):
 
 # =============== STEP 2: rotate & register (with a prim-picker callback) ===============
 def rotate_and_register_envs(kitchen_num: int, progress=None, ask_prim=None):
-    """Export the 12 rotation USDs and register an env for each. Returns the paths it EXPORTED.
+    """Export the 12 rotation USDs. Returns the paths it EXPORTED.
 
     That return value is the only trustworthy record of what this run produced, which is why it
     exists: every one of the six give-up paths below returns normally, and the caller cannot tell
@@ -415,7 +416,6 @@ def rotate_and_register_envs(kitchen_num: int, progress=None, ask_prim=None):
 
     usd_context = omni.usd.get_context()
     success = usd_context.open_stage(base_usd)
-    init_file = f"{SIMVLA_REPO_ROOT}/source/isaaclab_tasks/isaaclab_tasks/manager_based/kitchen/__init__.py"
 
     if not success:
         print(f"[Step2] Failed to open base USD: {base_usd}")
@@ -510,24 +510,9 @@ def rotate_and_register_envs(kitchen_num: int, progress=None, ask_prim=None):
         if progress:
             progress("Building rotations", i, 12)
 
-        with open(init_file, "r") as f:
-            lines = f.readlines()
-        lines.append(
-            f"""
-gym.register(
-    id="Isaac-Kitchen-v{kitchen_num:02d}-{i:02d}",
-    entry_point="isaaclab.envs:ManagerBasedRLEnv",
-    disable_env_checker=True,
-    kwargs={{
-        "env_cfg_entry_point": f"{{__name__}}.kitchen_{kitchen_num:02d}_{i:02d}:AnubisKitchenEnvCfg",
-    }},
-)
-"""
-        )
-        with open(init_file, "w") as f:
-            f.writelines(lines)
-
-    print("[Step2] All 12 rotated USDs created and envs registered.")
+    # Task IDs are registered by registration.register_kitchens when goal emission writes the
+    # kitchen_N_SS.py configs; this function no longer edits the tracked kitchen package.
+    print("[Step2] All 12 rotated USDs created.")
     return written
 
 
