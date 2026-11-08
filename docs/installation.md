@@ -113,7 +113,7 @@ python scripts/tools/download_bodex.py \
   --allow-patterns use_data.tar.gz graspdata_final.tar.gz \
   --revision 3d0326ecc8f6074f3cb1796a249acebda564cab7
 test -d "$BODEX_OBJ_DIR/use_data" && test -d "$BODEX_OBJ_DIR/graspdata_final"
-python scripts/tools/build_grasp_manifest.py --bodex-root "$BODEX_OBJ_DIR"
+python scripts/tools/build_grasp_manifest.py --bodex-obj-dir "$BODEX_OBJ_DIR"
 ```
 
 Robot models, complete kitchen assets, real recordings, and policy checkpoints are external. Continue with [simulator workflows](simulation.md) for exact commands and [asset provenance](asset-provenance.md) for sources and hashes.

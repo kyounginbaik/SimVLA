@@ -20,7 +20,9 @@ driver and CUDA toolkit/compiler. This route does not copy the research environm
 ```bash
 python3.10 -m venv .venv-sim
 unset PYTHONPATH PYTHONHOME
-.venv-sim/bin/python -m pip install -r env/simulator-raw.in
+.venv-sim/bin/python -m pip install --upgrade 'pip==26.0.1'
+.venv-sim/bin/python -m pip install \
+  --build-constraint env/simulator-build-constraints.txt -r env/simulator-raw.in
 git submodule update --init third_party/curobo
 git -C third_party/curobo apply --check ../curobo.simvla.patch
 git -C third_party/curobo apply ../curobo.simvla.patch
