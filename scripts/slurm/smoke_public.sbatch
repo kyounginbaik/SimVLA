@@ -32,7 +32,8 @@ export OMP_NUM_THREADS=$PXR_WORK_THREAD_LIMIT
 export OPENBLAS_NUM_THREADS=$PXR_WORK_THREAD_LIMIT
 OUTPUT=${SIMVLA_SMOKE_ROOT:-$REPO/outputs}/smoke-${SLURM_ARRAY_JOB_ID:-${SLURM_JOB_ID:-local}}-$ROBOT
 cd "$REPO"
+source "$REPO/scripts/slurm/kit_root.sh"
 "$PY" scripts/simvla/smoke_test.py --headless --robot "$ROBOT" --task "$TASK" \
   --steps "${SIMVLA_SMOKE_STEPS:-100}" --seed "${SIMVLA_SEED:-0}" \
   --goal_file "$REPO/examples/goals/$TASK.json" --output_dir "$OUTPUT" \
-  "--kit_args=--/plugins/carb.tasking.plugin/threadCount=$PXR_WORK_THREAD_LIMIT"
+  "--kit_args=--/plugins/carb.tasking.plugin/threadCount=$PXR_WORK_THREAD_LIMIT$SIMVLA_KIT_ROOT_ARGS"

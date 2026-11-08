@@ -158,7 +158,9 @@ One GPU was enough for the documented smokes. Replace the partition name and use
 ```bash
 srun --partition=YOUR_GPU_PARTITION --gres=gpu:1 --cpus-per-task=16 --mem=32G \
   python -m simvla run smoke --repo-root "$SIMVLA_REPO_ROOT" -- --headless \
-  --kit_args "--/plugins/carb.tasking.plugin/threadCount=8 --/persistent/physics/numThreads=8"
+  "--kit_args=--/plugins/carb.tasking.plugin/threadCount=8 --/persistent/physics/numThreads=8"
 ```
 
 `simvla run WORKFLOW --repo-root . --dry-run -- ...` prints a launch command without starting Isaac Sim.
+
+The `scripts/slurm` launchers give Omniverse Kit a node-local portable root (`${TMPDIR:-/tmp}/simvla-kit-$USER`) so jobs on different nodes do not share Kit's DerivedDataCache inside the simulator environment; on Lustre that sharing hung Kit during startup. The first job on a node recompiles shaders. Set `SIMVLA_KIT_PORTABLE_ROOT` to choose another absolute path, or `none` to keep Kit's default. Direct commands can pass `"--kit_args=--portable-root /local/path"` themselves.

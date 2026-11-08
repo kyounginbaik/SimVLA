@@ -104,7 +104,8 @@ if [[ -n ${SIMVLA_TASK:-} ]]; then
   TASK=$SIMVLA_TASK
 fi
 SOURCE_GOAL=${SIMVLA_SOURCE_GOAL:-$SOURCE_GOAL}
-ARGS+=("--kit_args=--/plugins/carb.tasking.plugin/threadCount=$SIMVLA_CPU_THREADS")
+source "$REPO/scripts/slurm/kit_root.sh"
+ARGS+=("--kit_args=--/plugins/carb.tasking.plugin/threadCount=$SIMVLA_CPU_THREADS$SIMVLA_KIT_ROOT_ARGS")
 if [[ -n "$EXPORT_PY" ]]; then
   ARGS+=(--skip_finalize)
 fi
@@ -150,8 +151,8 @@ if [[ -n "$OVERLAY" ]]; then
 fi
 if [[ ${SIMVLA_DRY_RUN:-0} == 1 ]]; then
   printf 'num_demos=%s\n' "$SIMVLA_NUM_DEMOS"
-  printf 'robot=%s\ntask=%s\npython=%s\nrepo=%s\ngoal=%s\noutput=%s\noverlay=%s\nseed=%s\nexport_python=%s\ncpu_threads=%s\n' \
-    "$ROBOT" "$TASK" "$PY" "$REPO" "$SOURCE_GOAL" "$RUN_ROOT" "${OVERLAY:-none}" "$SIMVLA_SEED" "${EXPORT_PY:-inline}" "$SIMVLA_CPU_THREADS"
+  printf 'robot=%s\ntask=%s\npython=%s\nrepo=%s\ngoal=%s\noutput=%s\noverlay=%s\nseed=%s\nexport_python=%s\ncpu_threads=%s\nkit_root=%s\n' \
+    "$ROBOT" "$TASK" "$PY" "$REPO" "$SOURCE_GOAL" "$RUN_ROOT" "${OVERLAY:-none}" "$SIMVLA_SEED" "${EXPORT_PY:-inline}" "$SIMVLA_CPU_THREADS" "${SIMVLA_KIT_ROOT:-none}"
   exit 0
 fi
 [[ ${OMNI_KIT_ACCEPT_EULA:-} == YES ]] || {

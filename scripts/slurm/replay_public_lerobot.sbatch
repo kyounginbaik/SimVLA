@@ -72,12 +72,13 @@ fi
 if [[ ${SIMVLA_SIMVQA:-0} == 1 ]]; then
   ARGS+=(--simvqa --vqa_output_dir "$RUN_ROOT/simvqa")
 fi
+source "$REPO/scripts/slurm/kit_root.sh"
 REPLAY_EXIT=0
 "$PY" "$REPO/scripts/simvla/simvla_replay.py" --task "$TASK" --robot "$ROBOT" \
   --dataset_file "$DATASET" --local --num_envs 1 --seed "${SIMVLA_SEED:-0}" \
   --max_passes "${SIMVLA_REPLAY_PASSES:-1}" --headless --enable_cameras \
   "${ARGS[@]}" \
-  --kit_args="--/plugins/carb.tasking.plugin/threadCount=$SIMVLA_CPU_THREADS" || REPLAY_EXIT=$?
+  --kit_args="--/plugins/carb.tasking.plugin/threadCount=$SIMVLA_CPU_THREADS$SIMVLA_KIT_ROOT_ARGS" || REPLAY_EXIT=$?
 "$PY" - "$REPLAY_EXIT" "$SIMVLA_STATUS_FILE" <<'PYCODE'
 import sys
 from workflow_status import resolve_exit_code
