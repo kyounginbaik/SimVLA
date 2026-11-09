@@ -66,6 +66,13 @@ parser.add_argument(
 )
 parser.add_argument("--simvqa", action="store_true", default=False, help="Save SimVQA data during demo replay")
 parser.add_argument("--vqa_output_dir", default=None, help="New output directory for this VQA capture")
+parser.add_argument("--depth", action="store_true", default=False,
+                    help="Also save per-camera depth, intrinsics and poses for the successful pass "
+                         "(see rgbd_capture.py; depth_to_pointcloud.py converts them). Adds a "
+                         "replay-only pinhole twin of the fisheye head camera, front_pinhole")
+parser.add_argument("--seg_video", action="store_true", default=False,
+                    help="Also write per-frame instance-segmentation videos (the SimVQA annotator) "
+                         "for the successful pass")
 parser.add_argument(
     "--vqa_task",
     type=str,
@@ -159,6 +166,7 @@ from isaaclab.simvla.simvqa import (
     vqa_task_maps,
 )
 from scene_spec import OBJECT_TYPES
+import rgbd_capture
 from replay_initial_state import (
     apply_initial_objects, initial_objects_for_episode,
     apply_initial_robot_root, initial_robot_root_for_episode,
@@ -329,6 +337,10 @@ def main():
             camera = getattr(env_cfg.scene, camera_name)
             camera.data_types = list(dict.fromkeys([*camera.data_types, "instance_id_segmentation_fast"]))
             camera.colorize_instance_id_segmentation = True
+    if args_cli.depth:
+        rgbd_capture.enable_depth(env_cfg.scene)
+    if args_cli.seg_video:
+        rgbd_capture.enable_segmentation(env_cfg.scene, rgbd_capture.DEPTH_CAMERAS)
     env_cfg.recorders: ActionStateRecorderManagerCfg = ActionStateRecorderManagerCfg()
     env_cfg.recorders.dataset_export_dir_path = output_dir
     env_cfg.recorders.dataset_filename = output_file_name
@@ -603,6 +615,20 @@ def main():
        rgb_jitter_sigma=0.08,
        seed=args_cli.seed,
     )
+
+    # Capture recorders. The pinhole twin copies the head camera's offset, so it is added only
+    # after the camera noise above has moved that camera.
+    frame_recorders = []  # (recorder, kind)
+    capture_cameras = rgbd_capture.DEPTH_CAMERAS
+    if args_cli.depth:
+        rgbd_capture.add_pinhole_twin(env_cfg.scene)
+        capture_cameras = (*rgbd_capture.DEPTH_CAMERAS, rgbd_capture.FRONT_TWIN)
+        depth_projections = {c: rgbd_capture.projection_of(getattr(env_cfg.scene, c)) for c in capture_cameras}
+        frame_recorders.append((rgbd_capture.DepthRecorder(cameras=capture_cameras), "depth"))
+        frame_recorders.append((rgbd_capture.FrameRecorder((rgbd_capture.FRONT_TWIN,), "rgb", ""), "video"))
+    if args_cli.seg_video:
+        frame_recorders.append((rgbd_capture.FrameRecorder(
+            capture_cameras, rgbd_capture.SEG_ANNOTATOR, "_seg"), "video"))
 
     env = gym.make(args_cli.task, cfg=env_cfg).unwrapped
     print(f"[ik] per-joint DLS deadzone set to {apply_ik_joint_deadzone(env):g} rad", flush=True)
@@ -904,6 +930,8 @@ def main():
             front_frames.append(_to_hwc_uint8(front_rgb))
             wrist_left_frames.append(_to_hwc_uint8(wrist_left_rgb))
             wrist_right_frames.append(_to_hwc_uint8(wrist_right_rgb))
+            for _rec, _ in frame_recorders:
+                _rec.append(env.scene.sensors)
 
             if env.recorder_manager.exported_successful_episode_count > current_recorded_demo_count:
                 if len(obs_tuple) > 5 and isinstance(obs_tuple[5], (list, tuple)):
@@ -926,6 +954,10 @@ def main():
                                       ("wrist_left", wrist_left_success)):
                     imageio.mimwrite(video_dir / f"success{num_retry + 1}_{_cam}.mp4",
                                      _frames, fps=fps, codec="libx264")
+                for _rec, _kind in frame_recorders:
+                    _extra = depth_projections if _kind == "depth" else fps
+                    for _path in _rec.save(video_dir, f"success{num_retry + 1}", first_idx, _extra):
+                        print(f"[replay] wrote {_kind} {_path}", flush=True)
                 print("Demo replay done")
                 try:
                     _tm = env.termination_manager
@@ -995,6 +1027,8 @@ def main():
                 front_frames = []
                 wrist_right_frames = []
                 wrist_left_frames = []
+                for _rec, _ in frame_recorders:
+                    _rec.reset()
                 gripper_command_L = False
                 gripper_command_R = False
                 start = 0

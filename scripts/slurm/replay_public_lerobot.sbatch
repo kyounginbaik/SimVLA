@@ -72,6 +72,12 @@ fi
 if [[ ${SIMVLA_SIMVQA:-0} == 1 ]]; then
   ARGS+=(--simvqa --vqa_output_dir "$RUN_ROOT/simvqa")
 fi
+if [[ ${SIMVLA_DEPTH:-0} == 1 ]]; then
+  ARGS+=(--depth)
+fi
+if [[ ${SIMVLA_SEG_VIDEO:-0} == 1 ]]; then
+  ARGS+=(--seg_video)
+fi
 source "$REPO/scripts/slurm/kit_root.sh"
 REPLAY_EXIT=0
 "$PY" "$REPO/scripts/simvla/simvla_replay.py" --task "$TASK" --robot "$ROBOT" \

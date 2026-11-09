@@ -136,6 +136,25 @@ simvla vqa outputs/vqa/Isaac-Kitchen-v813-00 --output outputs/questions.jsonl
 
 Use the collection's saved goal and initial-object metadata for randomized scenes. Replay must pass the physical task predicate before treating VQA captures as validated. `--seed` pins sampling and initialization, not bitwise GPU physics. For a CPU-only converter example, run `simvla vqa examples/vqa --output outputs/questions.jsonl`.
 
+### Depth, segmentation video, and point clouds
+
+Add `--depth` and/or `--seg_video` to the replay (`SIMVLA_DEPTH=1`, `SIMVLA_SEG_VIDEO=1` with `scripts/slurm/replay_public_lerobot.sbatch`). For the successful pass, next to `success1_<camera>.mp4` in `demo_replay/<robot>/<task>/<start>_<end>/`:
+
+- `success1_<camera>_depth.npz`: `depth_mm` (T, H, W) uint16 along the optical axis, the pinhole `intrinsics`, and per-frame `pos_w` / `quat_w_ros` (wxyz, ROS axes). Frame t matches video frame t.
+- `success1_<camera>_seg.mp4`: per-frame colorized instance segmentation (the SimVQA annotator).
+- `front_pinhole`: the head camera is a fisheye, which a pinhole K cannot unproject, so `--depth` adds a replay-only 640×480, 100° pinhole camera on the same mount. It is not an observation and never enters the dataset.
+
+```bash
+D=outputs/.../demo_replay/anubis/Isaac-Kitchen-v813-00/0_1417
+python scripts/simvla/depth_to_pointcloud.py $D/success1_wrist_right_depth.npz --frames 0 500 --out clouds/  # coloured world-frame .ply
+python scripts/simvla/replay_videos.py tiled  $D tiled.mp4   # RGB / segmentation / depth / cloud per camera
+python scripts/simvla/replay_videos.py follow $D follow.mp4  # fused clouds behind the head, RGB | segmentation
+```
+
+![Replay RGB, segmentation, depth and point clouds](media/replay-rgb-seg-depth-pointcloud.gif)
+
+4× speed preview of Anubis kitchen 813 (columns: head, left wrist, right wrist); [full-length video](media/replay-rgb-seg-depth-pointcloud.mp4).
+
 ## 6–7. Training and SimDeploy
 
 The paper uses SimAction and SimVQA pre-training followed by SimAction and SimDeploy post-training. Training code, deployment adapters, and public checkpoints are not included.
