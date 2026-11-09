@@ -86,6 +86,12 @@ simvla vqa examples/vqa --output outputs/questions.jsonl
 
 See [SimVQA Generation](docs/simulation.md#5-simvqa-generation).
 
+The same replay can also record per-frame segmentation video, depth, and point clouds for the head and wrist cameras (`--seg_video`, `--depth`):
+
+![Replay RGB, segmentation, depth and point clouds](docs/media/replay-rgb-seg-depth-pointcloud.gif)
+
+See [Depth, segmentation video, and point clouds](docs/simulation.md#depth-segmentation-video-and-point-clouds).
+
 ### 6. SimVLA Training
 
 The paper uses SimAction and SimVQA pre-training followed by SimAction and SimDeploy post-training. The training recipe and checkpoint are not included in this repository. See the [reproducibility map](docs/reproducibility.md).
