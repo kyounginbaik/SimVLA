@@ -55,7 +55,9 @@
     {
       "skill": "arm.bowl_place",
       "action": "A_r",
-      "params": {},
+      "params": {
+        "forward_m": 0.38
+      },
       "language": "Move the mug over the sink"
     },
     {
