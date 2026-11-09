@@ -246,3 +246,28 @@ def test_goal_authoring_runs_robot_adapter_after_geometry(tmp_path, robot):
         assert len(lines) == 2
         assert f"scripts/simvla/{robot}_kitchen_cfg.py --kitchen 813 --subs 0" in lines[1]
         assert f"--goals-dir {tmp_path / 'goals'}" in lines[1]
+
+
+def test_grasp_quota_is_one_for_the_collect_arm(tmp_path):
+    env = launcher_env(tmp_path)
+    env.update(ROBOT="anubis")
+    result = subprocess.run(["bash", str(SCRIPT)], cwd=tmp_path, env=env,
+                            capture_output=True, text=True)
+    assert result.returncode == 0, result.stderr
+    assert "grasp_quota=r1,l0\n" in result.stdout
+
+
+def test_goal_without_grasp_check_keeps_zero_quota(tmp_path):
+    # Door/appliance goals (open_dishwasher, open_microwave, ...) have no grasp step: the emitter
+    # writes 999 / count 0, and forcing a quota of 1 makes the collector refuse the goal.
+    env = launcher_env(tmp_path)
+    goal = json.loads((ROOT / "examples/goals/Isaac-Kitchen-v813-00.json").read_text())
+    goal["run_config"].update(sub_grasp_idx_r=999, sub_grasp_idx_l=999,
+                              sub_good_goal_count_r=0, sub_good_goal_count_l=0)
+    path = tmp_path / "door-goal.json"
+    path.write_text(json.dumps(goal))
+    env.update(ROBOT="anubis", SIMVLA_SOURCE_GOAL=str(path))
+    result = subprocess.run(["bash", str(SCRIPT)], cwd=tmp_path, env=env,
+                            capture_output=True, text=True)
+    assert result.returncode == 0, result.stderr
+    assert "grasp_quota=r0,l0\n" in result.stdout

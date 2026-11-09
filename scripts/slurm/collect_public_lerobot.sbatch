@@ -89,13 +89,11 @@ esac
 # when a task uses the non-default arm for an embodiment.
 COLLECT_ARM=${SIMVLA_COLLECT_ARM:-$DEFAULT_ARM}
 case "$COLLECT_ARM" in
-  right) ARGS=(--sub_good_goal_count_r 1 --sub_good_goal_count_l 0) ;;
-  left)
-    ARGS=(--sub_good_goal_count_r 0 --sub_good_goal_count_l 1)
-    export SIMVLA_POSTGRASP_LIFT_LEFT=1
-    ;;
+  right) ;;
+  left) export SIMVLA_POSTGRASP_LIFT_LEFT=1 ;;
   *) echo "SIMVLA_COLLECT_ARM must be left or right" >&2; exit 2 ;;
 esac
+ARGS=()
 
 if [[ -n ${SIMVLA_TASK:-} ]]; then
   [[ -n ${SIMVLA_SOURCE_GOAL:-} ]] || {
@@ -104,6 +102,17 @@ if [[ -n ${SIMVLA_TASK:-} ]]; then
   TASK=$SIMVLA_TASK
 fi
 SOURCE_GOAL=${SIMVLA_SOURCE_GOAL:-$SOURCE_GOAL}
+# One accepted grasp on the collect arm, unless the goal has no grasp check at all (door and
+# appliance tasks: the emitter writes count 0). Forcing 1 there makes the collector refuse the goal.
+read -r QUOTA_R QUOTA_L < <("$PY" - "$SOURCE_GOAL" "$COLLECT_ARM" <<'PYCODE'
+import json, sys
+cfg = json.load(open(sys.argv[1])).get("run_config", {})
+arm = sys.argv[2][0]
+wants = int(cfg.get(f"sub_good_goal_count_{arm}", 1)) > 0
+print(int(wants and arm == "r"), int(wants and arm == "l"))
+PYCODE
+)
+ARGS+=(--sub_good_goal_count_r "$QUOTA_R" --sub_good_goal_count_l "$QUOTA_L")
 source "$REPO/scripts/slurm/kit_root.sh"
 ARGS+=("--kit_args=--/plugins/carb.tasking.plugin/threadCount=$SIMVLA_CPU_THREADS$SIMVLA_KIT_ROOT_ARGS")
 if [[ -n "$EXPORT_PY" ]]; then
@@ -151,6 +160,7 @@ if [[ -n "$OVERLAY" ]]; then
 fi
 if [[ ${SIMVLA_DRY_RUN:-0} == 1 ]]; then
   printf 'num_demos=%s\n' "$SIMVLA_NUM_DEMOS"
+  printf 'grasp_quota=r%s,l%s\n' "$QUOTA_R" "$QUOTA_L"
   printf 'robot=%s\ntask=%s\npython=%s\nrepo=%s\ngoal=%s\noutput=%s\noverlay=%s\nseed=%s\nexport_python=%s\ncpu_threads=%s\nkit_root=%s\n' \
     "$ROBOT" "$TASK" "$PY" "$REPO" "$SOURCE_GOAL" "$RUN_ROOT" "${OVERLAY:-none}" "$SIMVLA_SEED" "${EXPORT_PY:-inline}" "$SIMVLA_CPU_THREADS" "${SIMVLA_KIT_ROOT:-none}"
   exit 0
@@ -224,21 +234,22 @@ if [[ "$ROBOT" == aiworker ]]; then
   fi
   MODEL_EVIDENCE=(--artifact "$SIMVLA_AIWORKER_URDF_PATH")
 fi
-"$PY" - "$SOURCE_GOAL" "$GOALS/$TASK.json" "$ROBOT" "$COLLECT_ARM" "${SIMVLA_GRASP_CANDIDATE_INDEX:-}" <<'PYCODE'
+"$PY" - "$SOURCE_GOAL" "$GOALS/$TASK.json" "$ROBOT" "$COLLECT_ARM" "${SIMVLA_GRASP_CANDIDATE_INDEX:-}" "$QUOTA_R" "$QUOTA_L" <<'PYCODE'
 import json
 import subprocess
 import sys
 from pathlib import Path
 
 src, dst, robot, arm, candidate = Path(sys.argv[1]), Path(sys.argv[2]), sys.argv[3], sys.argv[4], sys.argv[5]
+quota_r, quota_l = int(sys.argv[6]), int(sys.argv[7])
 goal = json.loads(src.read_text())
 if candidate:
     from select_goal_grasp import select_candidate
     goal = select_candidate(goal, arm, int(candidate))
     print(f"[goal] pinned authored BoDex {arm} candidate {candidate}", flush=True)
 cfg = goal.setdefault("run_config", {})
-cfg["sub_good_goal_count_r"] = int(arm == "right")
-cfg["sub_good_goal_count_l"] = int(arm == "left")
+cfg["sub_good_goal_count_r"] = quota_r
+cfg["sub_good_goal_count_l"] = quota_l
 dst.write_text(json.dumps(goal, indent=2, allow_nan=True) + "\n")
 print(f"[goal] copied {src} -> {dst}; run_config={cfg}", flush=True)
 PYCODE
