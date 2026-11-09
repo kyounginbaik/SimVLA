@@ -166,7 +166,10 @@ ANUBIS_CFG = ArticulationCfg(
 			joint_names_expr=["gripper1.*"],
 			effort_limit_sim=200.0,
 			velocity_limit_sim=2,
-			stiffness=250,
+			# Grip force is stiffness x (closed target 0.0 - jaw position). A bowl rim stops the jaw
+			# near 0.018, so 250 squeezed ~3.5 N net of friction: less than a 0.6 kg bowl needs
+			# under carry accelerations, and it slipped out in about 1 of 3 runs. 2000 gives ~35 N.
+			stiffness=2000,
 			damping=10,
 			friction= 1.0,
 		),
