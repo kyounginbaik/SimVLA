@@ -41,7 +41,6 @@ from collector_profile import (  # noqa: E402
     goal_noise_standard_deviations,
     grasp_geometry,
     gripper_open_target_reached,
-    jaw_gap_shows_object_contact,
     jaw_contact_midpoint,
     measured_locked_joints,
     post_lift_object_retained,
@@ -52,7 +51,7 @@ from collector_profile import (  # noqa: E402
     mug_grasp_target_height,
     mug_jaw_contact_ready,
     mug_pad_contacts_loaded,
-    mug_pre_lift_grasp_ready,
+    pre_lift_grasp_ready,
     advance_pregrasp_stage,
     pinch_axis_xy_correction,
     pinch_center_z_correction,
@@ -3474,26 +3473,22 @@ def main():
                 # between jaw-body centers before lift; it closed to 0.3 mm during lift and the
                 # bowl fell. Requiring a small positive loaded gap prevents that false-positive
                 # subgoal from entering the reusable reachability bank.
-                if obj_name.startswith("mug"):
-                    # Apply one testable predicate so configured pad sensors are an actual gate,
-                    # not merely diagnostic text. A geometry-only near-grasp is not proof of
-                    # contact when the embodiment exposes per-pad force measurements.
-                    _pad_sensor_names = _mug_pad_sensor_names(arm)
-                    _has_pad_sensors = (_pad_sensor_names is not None and any(
-                        getattr(env.scene, "sensors", {}).get(_name) is not None
-                        for _name in _pad_sensor_names))
-                    fail_mask = torch.as_tensor(
-                        [not mug_pre_lift_grasp_ready(
-                            float(distance[_i]), float(jaw_gap[_i]), float(jaw_xy[_i]),
-                            float(jaw_z[_i]),
-                            _mug_finger_contact_forces(int(_env), arm) if _has_pad_sensors else None,
-                        ) for _i, _env in enumerate(sub_envs)],
-                        dtype=torch.bool, device=jaw_xy.device)
-                else:
-                    fail_mask = distance > 0.15
-                    fail_mask |= torch.as_tensor(
-                        [not jaw_gap_shows_object_contact(float(_g)) for _g in jaw_gap],
-                        dtype=torch.bool, device=jaw_gap.device)
+                # The gate follows the grasp route (collector_profile.pre_lift_grasp_ready): the
+                # cylindrical-mug body window only for that route; authored grasps, including a
+                # mug held by its wall or rim, get the generic check and then the post-lift check.
+                _geometry = "cylindrical_mug" if (
+                    _cylindrical_mug_grasp_r if is_right else _cylindrical_mug_grasp_l) else "authored"
+                _pad_sensor_names = _mug_pad_sensor_names(arm) if obj_name.startswith("mug") else None
+                _has_pad_sensors = (_pad_sensor_names is not None and any(
+                    getattr(env.scene, "sensors", {}).get(_name) is not None
+                    for _name in _pad_sensor_names))
+                fail_mask = torch.as_tensor(
+                    [not pre_lift_grasp_ready(
+                        _geometry, obj_name, float(distance[_i]), float(jaw_gap[_i]),
+                        float(jaw_xy[_i]), float(jaw_z[_i]),
+                        _mug_finger_contact_forces(int(_env), arm) if _has_pad_sensors else None,
+                    ) for _i, _env in enumerate(sub_envs)],
+                    dtype=torch.bool, device=jaw_xy.device)
                 failed = sub_envs[fail_mask]
                 succeeded = sub_envs[~fail_mask]
                 side = "right" if is_right else "left"

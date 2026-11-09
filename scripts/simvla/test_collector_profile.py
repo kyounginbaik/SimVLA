@@ -389,3 +389,30 @@ def test_rby1_pad_centres_respect_mirrored_finger_frames():
         data=SimpleNamespace(body_pos_w=torch.tensor([[[.053, 0., .04], [-.053, 0., .04]]]),
             body_quat_w=torch.tensor([[[1., 0., 0., 0.], [0., 0., 0., 1.]]])))
     torch.testing.assert_close(jaw_contact_midpoint(robot, 0, 0, 1), torch.tensor([0., 0., .0095]))
+
+
+# The pre-lift gate follows the grasp route, not the object name. The cylindrical-mug window
+# (jaws on the mug axis, 4-7.5 cm up) only makes sense for the side-pinch route; an authored
+# BODex grasp on a mug wall or rim (Anubis, kitchen 813: jaw 4.8 cm off-axis, 7.9 cm up, 5.9 cm
+# gap) gets the generic near-and-not-collapsed check, and the post-lift check decides retention.
+import collector_profile  # noqa: E402
+
+RIM = dict(object_to_eef_m=0.102, jaw_gap_m=0.059, jaw_axis_error_m=0.047, jaw_height_above_object_m=0.0785)
+BODY = dict(object_to_eef_m=0.09, jaw_gap_m=0.05, jaw_axis_error_m=0.010, jaw_height_above_object_m=0.060)
+
+
+def test_authored_mug_rim_grasp_goes_to_the_lift_check():
+    assert collector_profile.pre_lift_grasp_ready("authored", "mug0", **RIM)
+
+
+def test_authored_mug_close_on_air_is_rejected():
+    assert not collector_profile.pre_lift_grasp_ready("authored", "mug0", **{**RIM, "jaw_gap_m": 0.0})
+
+
+def test_cylindrical_mug_keeps_the_body_window():
+    assert not collector_profile.pre_lift_grasp_ready("cylindrical_mug", "mug0", **RIM)
+    assert collector_profile.pre_lift_grasp_ready("cylindrical_mug", "mug0", **BODY)
+
+
+def test_authored_far_hand_is_rejected():
+    assert not collector_profile.pre_lift_grasp_ready("authored", "bowl0", **{**RIM, "object_to_eef_m": 0.2})

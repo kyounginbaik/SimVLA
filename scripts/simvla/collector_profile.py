@@ -383,6 +383,31 @@ def mug_pre_lift_grasp_ready(
                                  lateral_tolerance_m=0.025)
 
 
+def pre_lift_grasp_ready(
+    geometry: str,
+    object_name: str,
+    object_to_eef_m: float,
+    jaw_gap_m: float,
+    jaw_axis_error_m: float,
+    jaw_height_above_object_m: float,
+    pad_forces_n: tuple[float, float] | None = None,
+) -> bool:
+    """Pre-lift gate chosen by grasp route: the cylindrical-mug window only for that route.
+
+    An authored (BODex) grasp may hold a mug by its wall or rim, which the body window rejects by
+    construction. It gets the generic gate (hand near the object, jaws not collapsed on air) and
+    post_lift_object_retained decides whether the mug actually came up.
+    """
+    if geometry == "cylindrical_mug" and object_name.startswith("mug"):
+        return mug_pre_lift_grasp_ready(object_to_eef_m, jaw_gap_m, jaw_axis_error_m,
+                                        jaw_height_above_object_m, pad_forces_n)
+    if not math.isfinite(float(object_to_eef_m)) or float(object_to_eef_m) > 0.15:
+        return False
+    if pad_forces_n is not None and not mug_pad_contacts_loaded(*pad_forces_n):
+        return False
+    return jaw_gap_shows_object_contact(float(jaw_gap_m))
+
+
 def post_lift_object_retained(
     lifted_by_m: float,
     jaw_gap_m: float,
